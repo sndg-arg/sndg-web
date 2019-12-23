@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% load bioresources_extras %}
+
+{% block sidebarleft %}
+
+{% if sidebarleft %}
+<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+
+{% for k,v in selected.items %}
+
+ <div class="sidebar-sticky">
+
+        <span class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">{{ k }}</span>
+       <a class="justify-content-between align-items-center px-3 mt-4 mb-1 "
+                                 href="{{request|url_without_parameter:k}}">{{v}}  <i class="fas fa-minus-circle"></i>   </a>
+
+   </div>
+{% endfor %}
+
+
+{% for rtype,counts in sidebarleft.items %}
+
+          <div class="sidebar-sticky">
+          <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                        <span>{% trans rtype %}</span>
+                        <a class="d-flex align-items-center text-muted" href="#">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                        </a>
+                      </h6>
+
+            <ul class="nav flex-column">
+            {% for cat,count in counts %}
+              <li class="nav-item">
+                <a class="nav-link" style="font-size:0.7rem" href="{% url 'bioresources:index' %}?{{request.GET|qs_without_parameter:''}}&{{rtype}}={{cat|urlencode}}">
+
+                  {{cat}} : {{count}}
+                </a>
+              </li>
+            {% endfor %}
+            </ul>
+          </div>
+
+{% endfor %}
+
+       </nav>
+{% endif %}
+
+{% endblock %}
+
+
+{% block jumbotron %}
+<style>
+.jumbotron {
+    padding-bottom: 0;
+}
+</style>
+<div class="jumbotron">
+<img src="{% static 'sndg.png' %}" alt="My image" />
+
+<form class="form-group" method="GET">
+
+<table width="100%"><tbody><tr><td width="100px">
+
+
+<select width="100px" class="form-control" id="search_select" name="db">
+<option value="all">Todo</option><option value="protein">Proteinas</option><option value="genome">Genomas</option><option value="structure">Estructuras</option><option value="barcode">Barcodes</option><option value="tool">Herramientas</option>
+</select></td>
+<td><input name="search" class="form-control" id="searchInput" type="text" value="{{ search }}" ></td>
+<td><button id="searchBtn" class="btn btn-info"><i class="fa fa-search">&nbsp;</i></button></td></tr></tbody></table>
+
+{% if suggestions %}
+<small class="form-text text-muted">{% trans 'Did you mean?:' %}
+{% for x in suggestions %}
+<a href="{% url 'bioresources:index' %}?db={{db}}&search={{x}}">{{x}}</a>
+{% endfor %}
+</small>
+
+
+{% else %}
+
+<small class="form-text text-muted">Ejemplo de
+							búsquedas: <a href="{% url 'bioresources:index' %}?search=gyra">gyrA</a> &nbsp;
+							<a href="{% url 'bioresources:index' %}?search=tuberculosis">tuberculosis</a> &nbsp;
+							<a href="{% url 'bioresources:index' %}?search=COI-5P">COI-5P</a></small>
+{% endif %}
+							<button type="submit" class="btn info" style="display: none"><i class="fa fa-cloud-upload">&nbsp;</i>Depositar Datos
+						</button>
+
+</form>
+
+</div>
+{% endblock %}
+
+
+{% block content %}
+<div class="row">
+
+
+{% for stat in stats %}
+<div class="col-md-4">
+<div class="card bg-light mb-4" style="max-width: 18rem;">
+
+
+
+  <div class="card-body">
+    <div class="row">
+        <div class="col-sm">
+          <h5 class="card-title">{{stat.count}}</h5>
+
+
+          {% if stat.count %}
+           <a href="{% url 'bioresources:search_view' %}?type={{stat.type}}&{{querystring|qs_without_parameter:'db'}}"><p class="card-text">{{stat.name}}</p></a>
+           {% else %}
+           <p class="card-text">{{stat.name}}</p>
+          {% endif %}
+
+        </div>
+        <div class="col-sm">
+          <i class="fa fa-{{stat.icon}} big-icon">  </i>
+        </div>
+
+      </div>
+</div>
+
+
+  </div>
+</div>
+
+{% endfor %}
+
+</div>
+{% endblock %}

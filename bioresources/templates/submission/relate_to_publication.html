@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load bioresources_extras %}
+
+{% block content %}
+
+<form method="POST">
+{% csrf_token %}
+ {% trans 'Resource: ' %} <b> {{ resource.name }}</b><br />
+
+{% if valid_doi %}
+<input type="hidden" name="doi" value="{{ doi }}" />
+<input type="hidden" name="valid_doi" value="{{ doi }}" />
+
+    Relate With:
+    <b>{{msg}}</b>
+
+{% else %}
+
+    <input style="width: 50%;" name="doi" value="{{ doi }}" /> {% trans 'Enter a valid doi' %}
+    <p>{{msg}}</p>
+
+{% endif %}
+
+
+<hr />
+<button type="submit" class="btn btn-primary"> {% trans 'Accept' %}  </button>
+
+</form>
+
+{% endblock %}

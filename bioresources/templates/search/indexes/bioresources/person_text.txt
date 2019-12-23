@@ -1,0 +1,6 @@
+{{ object.complete_name }}
+{{ object.scopus_id }}
+{{ object.related_org_names | join:" " }}
+
+
+

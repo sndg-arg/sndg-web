@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load bioresources_extras %}
+
+{% block content %}
+<div class="col-lg-9">
+<p>
+{% trans 'Ingrese el recurso a importar. Puede copiar un link, el numero de acceso al proyecto, publicacione, genoma, lecturas, muestra, estructura o datos de expresion. Por ejemplo:' %}.
+<table class="table table-bordered">
+
+<tr><th>{% trans 'Genome/Assembly'%}</th><td>GCF_000195955.2 o  GCA_000195955.2  </td></tr>
+<tr><th>Lecturas</th><td>ERX3325914 o ERR3299636</td></tr>
+<tr><th>Estructura</th><td>2jrc</td></tr>
+<tr><th>Expresion</th><td>GSE134574</td></tr>
+  {#  <tr><th>Muestra</th><td>SAMEA3138326</td></tr> #}
+<tr><th>Publicación</th><td>10.3389/fmicb.2018.01471</td></tr>
+<tr><th>Proyecto</th><td>PRJNA224</td></tr>
+</table>
+
+</p>
+<form method="post" action="{% url 'bioresources:submission_import' %}">
+{% csrf_token %}
+
+<div class="input-group mb-1">
+  <div  class="input-group-prepend">
+
+
+
+    <select  class="custom-select" name="rtype">
+    <option {% if rtype == 'assembly' %} selected {% endif %} value="assembly">{% trans 'Genome' %}</option>
+    <option {% if rtype == 'sra' %} selected {% endif %}  value="sra">{% trans 'Reads' %}</option>
+    <option {% if rtype == 'gds' %} selected {% endif %}  value="gds">{% trans 'Expression' %}</option>
+   {# <option {% if rtype == 'biosample' %} selected {% endif %}  value="biosample">{% trans 'Sample' %}</option> #}
+    <option {% if rtype == 'structure' %} selected {% endif %}  value="structure">{% trans 'Structure' %}</option>
+    <option {% if rtype == 'pubmed' %} selected {% endif %}  value="pubmed">{% trans 'Publication' %}</option>
+    <option {% if rtype == 'bioproject' %} selected {% endif %}  value="bioproject">{% trans 'Bioproject' %}</option>
+    </select>
+   </div>
+        <input class="form-control" type="search" name="search" value="{{search}}"  />
+
+    <div class="input-group-append">
+        <button class="btn">Search</button>
+    </div>
+</div>
+
+</form>
+{% if results %}
+<h2>{% trans 'Results' %}</h2>
+<form action="{% url 'bioresources:submission_import_submit' %}" method="POST">
+    <table id="results_table" class="table">
+
+        {% for r in results %}
+        <tr>
+        {% if r.resource.id  %}
+            <td></td>
+            <td></td>
+        {% else %}
+            <td><input type="checkbox" name="accession_{{r.resource.name}}" />
+             <input type="hidden" name="id_{{r.resource.name}}" value="{{r.external_id}}" />
+            </td>
+            <td><select name="relation_{{r.resource.name}}">
+            {% for k,v in collaboration_types.items %}
+                <option value="{{k}}">{% trans v %}   </option>
+
+            {% endfor  %}
+                </select> </td>
+        {% endif %}
+            <td>{{r.msg}} </td>
+            <td>{{r.resource.name}} </td>
+            <td>{{r.resource.description}} </td>
+            <td>{{r.resource.type_name}}
+            <input type="hidden" name="rtype_{{r.resource.name}}" value="{{r.resource.type_name}}" />
+            </td>
+
+        </tr>
+        {% endfor %}
+    </table>
+    <input class="btn" type="submit" value="{% trans 'Load selected resources' %}" />
+    {% csrf_token %}
+</form>
+
+{% else %}
+{% if search %}
+{% trans 'No results found for: '%} {{search}}
+{% endif %}
+{% endif %}
+
+
+</div>
+{% endblock %}

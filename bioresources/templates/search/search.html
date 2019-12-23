@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load highlight %}
+
+
+{% load bioresources_extras %}
+
+{% block jumbotron %}
+<style>
+.jumbotron {
+    padding-bottom: 10px;
+}
+</style>
+<div class="jumbotron">
+<h2>{%  trans title %} </h2>
+
+    <form method="get" action="."  >
+        <div class="input-group col-mb-12">
+            <input class="form-control" type="search" name="q" id="id_q" value="{{query}}" />
+            <input class="form-control" type="hidden" name="type" id="id_q" value="{{dbtype}}" />
+            <div class="input-group-append">
+                <button  type="submit" class="btn btn-info"><i class="fa fa-search">&nbsp;</i></button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block sidebarleft %}
+
+{% if sidebarleft %}
+<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+
+{% for k,v in selected.items %}
+
+ <div class="sidebar-sticky">
+
+        <span class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">{{ k }}</span>
+       <a class="justify-content-between align-items-center px-3 mt-4 mb-1 "
+                                 href="{{request.get_path}}?{{params|qs_without_parameter:k}}">{{v}}  <i class="fas fa-minus-circle"></i>   </a>
+
+   </div>
+{% endfor %}
+
+
+{% for rtype,counts2 in sidebarleft.items %}
+    {% if counts2 %}
+          <div class="sidebar-sticky">
+                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                                  <span>{{ rtype }}</span>
+                                  <a class="d-flex align-items-center text-muted" href="#">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                                  </a>
+                                </h6>
+
+                      <ul class="nav flex-column">
+                      {% for cat,count in counts2 %}
+                        <li class="nav-item">
+                          <a class="nav-link" style="font-size:0.7rem" href="{{request.get_full_path}}&type={{dbtype}}&{{rtype}}={{cat|urlencode}}">
+
+                            {{cat}} : {{count}}
+                          </a>
+                        </li>
+                      {% endfor %}
+                      </ul>
+                    </div>
+    {% endif %}
+{% endfor %}
+
+       </nav>
+{% endif %}
+
+{% endblock %}
+
+
+{% block content %}
+
+<style>
+.highlighted_text {
+color : red;
+}
+
+</style>
+
+
+    <div class="container">
+
+
+     {% if page_obj.paginator.num_pages > 1 %}
+                {% if query %}
+                <div class="col-md-6">
+                <h3>{% trans 'Search' %} <strong>{{page_obj.paginator.count}}</strong> {% trans 'results for' %}  "<strong>{{query}}</strong>"</h3>
+               </div>
+               {% endif%}
+                <div class="col-md-6">
+                <nav aria-label="Page navigation">
+
+                    <ul class="pagination justify-content-left">
+                      <li class="page-item"><a class="page-link" href="?page=1&q={{query}}&{{params|qs_without_parameter:'page'}}">{% trans 'First' %}</a></li>
+                      {% if page_obj.has_previous %}
+                      <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}&{{params|qs_without_parameter:'page'}}">&laquo;</a></li>
+                      {% else %}
+                      <li class="page-item disabled"><a class="page-link" href="#"><span>&laquo;</span></a></li>
+                      {% endif %}
+                      {% for i in paginator.show_pages %}
+                      {% if page_obj.number == i %}
+                      <li class="page-item active"><a class="page-link" href="#">{{ i }} <span class="sr-only">(current)</span></a></li>
+                      {% else %}
+                      <li class="page-item"><a class="page-link" href="?page={{ i }}&{{params|qs_without_parameter:'page'}}">{{ i }}</a></li>
+                      {% endif %}
+                      {% endfor %}
+                      {% if page_obj.has_next %}
+                      <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}&{{params|qs_without_parameter:'page'}}">&raquo;</a></li>
+                      <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages}}&{{params|qs_without_parameter:'page'}}">{% trans 'Last' %}</a></li>
+                      {% else %}
+                      <li class="page-item disabled"><a class="page-link" href="#"><span>&raquo;</span></a></li>
+                      {% endif %}
+
+                    </ul>
+                    </nav>
+</div>
+ {% endif %}
+
+        <table class="table">
+                {% for result in page_obj.object_list  %}
+                <tr><td>
+
+                        <a href="{{result.object.get_absolute_url }}">{% highlight result.name with query  html_tag "span" css_class "highlighted_text" %} </a> <br />
+                        {% if result.object.description  %}
+                        <span> {% highlight result.object.description with query  html_tag "span" css_class "highlighted_text" max_length 200 %}  </span><br />
+                        {% endif %}
+                        {% if result.taxon %}
+                        <span>   {{ result.taxon | first }}  </span> <br />
+                        {% endif %}
+                        {% if result.intraspecific_name %}
+                        <span> {% highlight result.intraspecific_name with query  html_tag "span" css_class "highlighted_text" %}    </span><br />
+                         {% endif %}
+
+
+                        {% if result.affiliations %}
+                        {% for aff in result.affiliations  %}
+                         <span>  {% highlight aff with query  html_tag "span" css_class "highlighted_text" %} | </span>
+                        {% endfor %}
+                        <br />
+                        {% endif %}
+
+                        {% if result.authors %}
+                        {% for aff in result.authors  %}
+                        <span>  {% highlight aff with query  html_tag "span" css_class "highlighted_text" %} | </span>
+                        {% endfor %}
+                        <br />
+                        {% endif %}
+
+                        {% if result.related_author_names %}
+                        {% for aff in result.related_author_names  %}
+                         <span>  {% highlight aff with query  html_tag "span" css_class "highlighted_text" %} | </span>
+                        {% endfor %}
+                        <br />
+                        {% endif %}
+
+                        {% if result.related_org_names %}
+                        {% for aff in result.related_org_names  %}
+                        <span>  {% highlight aff with query  html_tag "span" css_class "highlighted_text" %} | </span>
+                        {% endfor %}
+                        <br />
+                        {% endif %}
+
+                    </td></tr>
+
+                {% empty %}
+
+                <tr><td>
+                    <p>No se encontraron resultados.</p>
+
+                    {% if suggestion_list %}
+                    Sugerencias:
+                    {% for s in suggestion_list %}
+                    <a href="?q={{s}}&type={{dbtype}}">{{s}}</a>
+                    {% endfor %}
+                    {% endif %}
+
+                </td></tr>
+                {% endfor %}
+
+
+
+    </table>
+
+</div>
+
+{% endblock %}

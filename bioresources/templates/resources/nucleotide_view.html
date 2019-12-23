@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load bioresources_extras %}
+{% load i18n %}
+
+{% block head %}
+{% endblock %}
+
+{% block header %}
+    {% include "header.html" with class="bg-arandano" section_name="Sequence"%}
+{% endblock %}
+
+
+{% block content %}
+            <h1>{{ object.accession }}</h1>
+            <table class="table  table-responsive">
+                <tr><td><b>Locus Tag</b></td><td>{{ object.accession }}</td></tr>
+                {% for q in object.qualifiers.all %}
+                {% if q.term.name in "sequence_version topology date_changed" %}
+                <tr><td><b>{{ q.term.name|replace:"_| "|capfirst }}</b></td><td>
+                {{q.value}}
+                </td></tr>
+                {% endif %}
+                {% endfor %}
+                <tr><td><b>Organismo</b></td><td><a href="{% url 'bioresources:assembly_view' assembly.id %}">{{ object.biodatabase.name }}</a></td></tr>
+                {% if object.taxon %}
+                <tr><td><b>Taxon</b></td><td><a href="{% url 'bioresources:tax_view' object.taxon.ncbi_taxon_id %}">{{ object.taxon.scientific_name }}</a></td></tr>
+                {% endif %}
+            </table>
+
+            <h3>{% trans 'Annotations' %} </h3>
+
+            {% paginator query page_obj request.GET %}
+            <table class="table  table-responsive">
+                    <thead>
+                        <tr>
+                            <td>Anotación</td>
+                            <td>Tipo</td>
+                            <td>Start</td>
+                            <td>End</td>
+                            <td>Strand</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for gene_prod in feature_list %}
+                        <tr>
+                            <td>
+                                {% if gene_prod.type_term.name == "CDS" %}
+                                {% if gene_prod.is_pseudo %}
+                                    {{gene_prod.locus_tag}} (pseudo)
+                                {% else %}
+                                <a href="{% url 'bioresources:search_redirect' 'locus_tag' gene_prod.locus_tag %}">{{gene_prod.locus_tag}}</a>
+
+                                {% endif %}
+                                {% else %}
+                                {{gene_prod.locus_tag}}
+                                {% endif %}
+                            </td>
+                            <td>{{gene_prod.type_term.name}}</td>
+                            <td>{{gene_prod.locations.all|index:0|getattribute:'start_pos'}}</td>
+                            <td>{{gene_prod.locations.all|index:0|getattribute:'end_pos'}}</td>
+
+                            <td>{{ gene_prod.strand }}</td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+
+
+
+             <iframe  id="jbrowse"
+             src="{% static 'jbrowse' %}/index.html?data=data/{{assembly.name}}&fullviewlink=false&tracks=DNA,Genes&menu=false&nav=true&tracklist=false&loc={{object.accession}}:0..999&"
+             height="400px" width="100%"></iframe>
+{% endblock %}

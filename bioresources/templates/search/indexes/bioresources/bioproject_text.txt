@@ -1,0 +1,14 @@
+{{ object.name }}
+{{ object.description }}
+{{ object.type }}
+{{ object.related_author_names | join:" " }}
+{{ object.related_org_names | join:" " }}
+{{ object.sample_scope }}
+{{ object.material }}
+{{ object.capture }}
+{{ object.target }}
+{{ object.method }}
+{{ object.taxon_name }}
+
+
+

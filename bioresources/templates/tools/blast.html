@@ -1,0 +1,353 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load bioresources_extras %}
+
+{% block head %}
+
+
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"/>
+
+{% endblock %}
+
+
+{% block content %}
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+
+<script type="text/javascript">
+
+
+
+
+
+		$.inputType = 'aminoacids';
+		$.blastType = 'blastp';
+
+		function chageInput(inputType){
+			if(inputType == 'nucleotides'){
+				$("#nucleotides-btn").removeClass("btn-default")
+				$("#nucleotides-btn").addClass("btn-primary")
+				$("#aminoacids-btn").removeClass("btn-primary")
+				$("#aminoacids-btn").addClass("btn-default")
+			} else  {
+				$("#aminoacids-btn").removeClass("btn-default")
+				$("#aminoacids-btn").addClass("btn-primary")
+				$("#nucleotides-btn").removeClass("btn-primary")
+				$("#nucleotides-btn").addClass("btn-default")
+			}
+			$.inputType = inputType
+			updateBlastType();
+		}
+
+
+
+		function blastType(blastT){
+			["blastp","blastn","tblastn","blastx"].forEach(x => {
+				$("#" + x).removeClass("btn-primary")
+				$("#" + x).addClass("btn-default")
+
+			})
+			if(blastT === "blastn"){
+				$("#matrix_input").hide();
+				$("#gap_open_input").val(1);
+				$("#gap_extend_input").val(2);
+			} else {
+				$("#gap_open_input").val(11);
+				$("#gap_extend_input").val(1);
+				$("#matrix_input").show();
+			}
+			$("#" + blastT).addClass("btn-primary");
+			$.blastType = blastT;
+			$("#blastType").val(blastT)
+
+		}
+
+		function updateBlastType(){
+			if ($.inputType  ==  'aminoacids'){
+				if( ["{{pdatabases|map:'accession'|join:'","'}}"].indexOf(  $("#database_select").val()) != -1 ){
+					blastType("blastp")
+				} else {
+					blastType("tblastn")
+				}
+			} else {
+				if( ["{{ndatabases|map:'accession'|join:'","'}}"].indexOf(  $("#database_select").val()) != -1 ){
+					blastType("blastn")
+				} else {
+					blastType("blastx")
+				}
+			}
+		}
+
+				function presentDatabseString(str) {
+			return str.charAt(0).toUpperCase() + str.slice(1).replace("_", " ");
+		};
+
+
+
+
+		var document_ready_fn = function() {
+
+			$("#database_select").change(x => {
+
+				updateBlastType()
+			});
+
+
+
+
+
+
+
+			var run_blast = function() {
+
+				/* if($("#genomes_select").val() == "uniprotkb"){
+					$.post("http://www.ebi.ac.uk/Tools/services/rest/ncbiblast/run/",{
+						email:	"ezejajaja@hotmail.com",		//User e-mail address. See Why do you need my e-mail address?
+
+						program:"blastp"	 ,		//BLAST program to use to perform the search.
+						matrix:	$("#matrix_select").val(),		//Scoring matrix to be used in the search.
+
+						gapopen:	parseInt($("#gap_open_input").val()),		//Penalty for the initiation of a gap.
+						gapext:		 parseInt($("#gap_extend_input").val()),	//Penalty for each base/residue in a gap.
+						filter:		$("#low_complexity_select").val() == "Y",	//Low complexity sequence filter to process the query sequence before performing the search.
+
+						stype:	"protein",		//Query sequence type. One of: dna, rna or protein.
+						sequence:	 $("#copy_area").val(),	//Query sequence. The use of fasta formatted sequence is recommended.
+						database:"uniprotkb"
+
+							//seqrange:		//Region of the query sequence to use for the search. Default: whole sequence.
+							//gapalign:		//Perform gapped alignments.
+							//compstats:		//Compositional adjustment or compositional statistics mode to use.
+							//align:			//Alignment format to use in output.
+							//alignments:		//Maximum number of alignments displayed in the output.
+						//scores:			//Maximum number of scores displayed in the output.
+						//exp	:			//E-value threshold.
+						//dropoff:			//Amount score must drop before extension of hits is halted.
+						//match_scores:	//Match/miss-match scores to generate a scoring matrix for for nucleotide searches.
+						//title:			//an optional title for the job.
+					})
+					return
+				} */
+
+				$("#results_table").remove();
+				$("#result_box")
+						.append(
+								'<div class="overlay">&#160;</div><div class="loading-img">&#160;</div>');
+				$(".btn").attr("disabled", "disabled").addClass(".disabled");
+
+				//Collapse params
+				var box = $("#params_box");
+				var bf = box.find(".box-body, .box-footer");
+				if (!box.hasClass("collapsed-box")) {
+					box.addClass("collapsed-box");
+					bf.slideUp();
+				}
+
+				var params = {
+
+					'${_csrf.parameterName}' : '${_csrf.token}',
+					"blastType ":$.blastType ,
+					"seq" : $("#sequence_text").val().replace(/\s/g,""),
+					"database" :  $("#database_select").val() ,
+					"matrix" : $("#matrix_select").val(),
+					"gap_open" : parseInt($("#gap_open_input").val()),
+					"gap_extend" : parseInt($("#gap_extend_input").val()),
+					"max_evalue" : parseFloat($("#evalue_select").val()),
+					"low_complexity" : $("#low_complexity_select").val() == "Y",
+					"max_results" : parseInt($("#results_select").val())
+
+				};
+
+                $("blast_form").submit();
+			};
+
+			$("#blast_unip_button").click(
+					function(evt) {
+
+						window.open('http://www.uniprot.org/blast/?blastQuery='
+								+ $("#sequence_text").val().replace(/\s/g,""), '_blank');
+
+					});
+
+			$("#blast_button").click(function(evt) {
+			    const seq = $("#sequence_text").val().replace(/\s/g,"");
+			    if (seq.length < 10) {
+			        alert('{% trans "Sequence must have at least 10 nucleotides/aminoacides" %}')
+			        return false;
+			    } 
+
+
+			});
+
+
+
+
+		};
+		$(document).ready(document_ready_fn);
+	</script>
+
+	<script type="text/javascript">
+		// ]]>
+	</script>
+
+	<form id="blast_form" method="POST">
+
+
+{% csrf_token %}
+
+
+	<div id="options_row" class="row">
+
+		<section class="col-lg-6 connectedSortable">
+
+
+					<div class="pull-right box-tools">
+						<div class="input-group">
+
+
+							<button class="btn btn-info" id="blast_button"
+								title="Runs the blast algorithm">Blast	</button>
+
+							<button class="btn btn-warning" id="blast_unip_button"
+								title="Opens a new tab">Blast in Uniprot</button>
+
+
+						</div>
+					</div>
+					<i class="fa fa-map-marker">&#160;</i>
+					<h3 class="box-title">
+						{% trans "Blast Sequence" %}
+					</h3>
+
+					<textarea name="sequence_text" id="sequence_text" style="width: 100%" rows="10"></textarea>
+			<input type="hidden" id="blastType" name="blastType" value="blastp" />
+
+
+		</section>
+		<section class="col-lg-6 connectedSortable">
+			<div class="box box-primary">
+				<div class="box-body">
+					<div class="form-group">
+					<label>{% trans "Blast Input" %}</label>
+					<br />
+						<div class="btn-group" role="group" aria-label="...">
+							<button  id="aminoacids-btn" onclick="chageInput('aminoacids')" type="button" class="btn btn-primary">
+								{% trans "Aminoacid" %}
+							</button>
+							<button id="nucleotides-btn" onclick="chageInput('nucleotides')" type="button" class="btn btn-default">
+								{% trans "nucleotides" %}
+							</button>
+
+						</div>
+						</div>
+
+					</div>
+
+					<div class="form-group">
+						<label>{% trans 'Blast Databases' %}</label> <select
+							name="database_select" id="database_select" class="form-control">
+
+
+							{% for db in pdatabases %}
+							<option title="{% trans db.description %}}" value="{{db.accession}}">{% trans db.name %}</option>
+							{% endfor %}
+							{% for db in ndatabases %}
+							<option title="{% trans db.description %}}" value="{{db.accession}}">{% trans db.name %}</option>
+							{% endfor %}
+
+
+						</select>
+
+					</div>
+					<div class="form-group">
+											<label>{% trans 'Blast Type' %}</label>
+											<br />
+						<div class="btn-group" role="group" aria-label="...">
+							<button  id="blastp" type="button"
+								class="btn btn-primary">blastp</button>
+							<button  id="blastn" type="button"
+								class="btn btn-default">blastn</button>
+							<button  id="blastx" type="button"
+								class="btn btn-default">blastx</button>
+							<button  id="tblastn" type="button"
+								class="btn btn-default">tblastn</button>
+						</div>
+				</div>
+			</div>
+			<div id="params_box" class="box box-primary">
+				<div class="box-header" style="cursor: move;">
+
+
+
+					<h3 class="box-title">
+						{% trans "Blast Parameters" %}
+					</h3>
+
+
+				</div>
+
+
+
+				<div class="box-body">
+
+					<div id="matrix_input" class="form-group">
+						<label>Matrix</label> <select id="matrix_select" name="matrix_select"
+							class="form-control">
+
+							<option value="BLOSUM45">Blowsum 45</option>
+							<option value="BLOSUM50">Blowsum 50</option>
+							<option selected="selected" value="BLOSUM62">Blowsum 62</option>
+							<option value="BLOSUM80">Blowsum 80</option>
+							<option value="BLOSUM90">Blowsum 90</option>
+							<option value="PAM30">Pam 30</option>
+							<option value="PAM70">Pam 70</option>
+							<option value="PAM250">Pam 250</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Gap open</label> <input id="gap_open_input" value="11"
+													   name="gap_open_input" class="form-control" type="number" />
+					</div>
+					<div class="form-group">
+						<label>Gap extend</label> <input id="gap_extend_input" value="1" name="gap_extend_input"
+							class="form-control" type="number" />
+					</div>
+					<div class="form-group">
+						<label>Max evalue</label> <select id="evalue_select" name="evalue_select"
+							class="form-control">
+							<option>1.0E-100</option>
+							<option>1.0E-10</option>
+							<option>1.0E-5</option>
+							<option>0.01</option>
+							<option>0.1</option>
+							<option>1</option>
+							<option selected="selected">10</option>
+
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Low complexity filter</label> <select name="low_complexity_select"
+							id="low_complexity_select" class="form-control">
+							<option>Yes</option>
+							<option>No</option>
+
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Results</label> <select id="results_select" name="results_select"
+							class="form-control">
+							<option>10</option>
+							<option>50</option>
+							<option>100</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</section>
+
+	</div>
+	</form>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load bioresources_extras %}
+
+
+{% block content %}
+
+
+    <div class="container">
+
+
+<h1>{% trans rtype_dst %} {% trans 'related with' %} {{ obj.name }} </h1>
+
+        <table class="table">
+                {% for result in results  %}
+                <tr><td>
+
+                        <a href="{{result.get_absolute_url }}"> {{result.name }} </a> <br />
+                        {{ result.description  }}
+
+                    </td></tr>
+
+                {% empty %}
+
+                <tr><td>
+                    <p>{% trans 'No se encontraron resultados.' %}</p>
+
+
+
+                </td></tr>
+                {% endfor %}
+
+
+
+    </table>
+
+</div>
+
+{% endblock %}

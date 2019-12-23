@@ -1,0 +1,32 @@
+ {% load static %}
+ {% load i18n %}
+ {% load bioresources_extras %}
+
+      <div class="col-md-12">
+        {% if request.user.is_authenticated and request.user.person %}
+                  {% if collaboration %}
+                      <span class="badge badge-success">{% trans 'You claimed this resource' %}</span><br />
+                      <a href="{% url edit_url %}?pk={{pk}}" class="btn"> {% trans 'Edit resource' %}</a>
+                  {% endif %}
+
+                   <a href="{% url 'bioresources:relate_to_publication' pk %}" class="btn"> {% trans 'Add publication' %}</a>
+
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    {% if  not collaboration %}
+                        <a type="button" class="btn btn-secondary"
+                            href="{% url 'bioresources:claim_resource' pk %}" >
+                            {% trans 'Claim resource' %}</a>
+                    {% endif %}
+                <form method="POST" action="{% url 'bioresources:mark_to_relate' pk %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ request.path }}">
+                    <button type="submit" class="btn btn-info">
+                            {% trans 'Select to relate' %}</button>
+                </form>
+              {% if request.session.relate_with and request.session.relate_with != pk %}
+                <a class="btn btn-primary" role="button"
+                    href="{% url 'bioresources:relate_resources' request.session.relate_with pk %}"  >
+                    {% trans 'Relate_with:' %} {{relate_with.name|truncatechars:50}}</a>
+              {% endif %}
+         {% endif %}
+        </div>

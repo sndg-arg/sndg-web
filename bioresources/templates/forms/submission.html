@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% load crispy_forms_tags %}
+
+
+{% load static %}
+{% load bioresources_extras %}
+
+{% block content %}
+    <div class="col-lg-9">
+        Escoja el recurso con el que quiere colaborar:
+        <table class="table">
+            <tr><td>{% trans 'Herramienta' %}</td><td>Material fisico del cual se extrajeron los datos</td></tr>
+            <tr><td>{% trans 'Estudio' %}</td><td>Material fisico del cual se extrajeron los datos</td></tr>
+            <tr><td>{% trans 'Muestra/s' %}</td><td>Material fisico del cual se extrajeron los datos</td></tr>
+            <tr><td>{% trans 'Lecturas/Experimento de secuenciacion' %}</td><td>Material fisico del cual se extrajeron los datos</td></tr>
+            <tr><td>{% trans 'Genoma/s' %}</td><td>Material fisico del cual se extrajeron los datos</td></tr>
+            <tr><td>{% trans 'Secuencia/s o Barcode/s' %}</td><td>Material fisico del cual se extrajeron los datos</td></tr>
+            <tr><td>{% trans 'Estructura' %}</td><td>Material fisico del cual se extrajeron los datos</td></tr>
+            <tr><td>{% trans 'Compuesto' %}</td><td>Material fisico del cual se extrajeron los datos</td></tr>
+        </table>
+    </div>
+{% endblock %}

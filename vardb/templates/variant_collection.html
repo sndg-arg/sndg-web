@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load bioresources_extras %}
+
+
+{% block head %}
+
+{% endblock %}
+
+{% block content %}
+
+
+
+
+<h1>{{variant_collection.sample}}</h1>
+{% if variant_collection.description %}
+<div>{{variant_collection.description}}</div>
+{% endif %}
+
+<ul>
+<li>{{variant_collection.ref_organism.name}}</li>
+<li>{{variant_collection.ref_organism.entries.first.taxon.scientific_name}}</li>
+</ul>
+
+<h2>Phenotype/Genotype</h2>
+<table>
+ {% for pg in pheno_table %}
+ <tr>
+ <td>{{pg.name}}</td>
+ <td>{{pg.phenotype}}</td>
+ <td>{{pg.genotype|length}}</td>
+ </tr>
+ {% endfor %}
+</table>
+
+<h2>Variants</h2>
+<table>
+{% for allele in alleles %}
+<tr>
+
+<td>
+    <a href="{% url 'vardb:variant_view' allele.variant_fk.id %}?variant_collection={{variant_collection.id}}" >
+        {{allele.variant_fk.pos}} </a>
+</td>
+<td>{{allele.variant_fk.ref}}</td>
+<td>{{allele.variant_fk.alt}}</td>
+<td>{{allele.main_effect_fk.gene.locus_tag}}</td>
+<td>{{allele.main_effect_fk.hgvs_p}}</td>
+<td>{{allele.main_effect_fk.variant_type}}</td>
+<td>{{allele.reported_a}}</td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}

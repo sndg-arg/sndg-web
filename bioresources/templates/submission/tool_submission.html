@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load bioresources_extras %}
+
+{% block content %}
+<div class="col-lg-9">
+<form  method="post">
+
+    {% if pk  %}
+    <input type="hidden" name="pk" value="{{pk}}" />
+    {% endif %}
+
+    {% crispy form %}
+
+</form>
+</div>
+{% endblock %}

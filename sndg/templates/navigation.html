@@ -1,0 +1,27 @@
+{% load i18n %}
+{% load static %}
+<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="{% url 'bioresources:index' %}">{% trans 'Home' %}</a></li>
+        <li><a href="{% url 'bioresources:available_tools' %}">{% trans 'Blast' %}</a></li>
+        <li><a href="{% url 'bioresources:faq' %}">{% trans 'FAQ' %}</a></li>
+        <li><a href="{% url 'bioresources:api' %}">{% trans 'API' %}</a></li>
+        <li><a style="display: none" href="{% url 'bioresources:stats' %}">{% trans 'Stats' %}</a></li>
+        <li><a href="{% url 'bioresources:submission' %}">{% trans 'Data Submissions' %}</a></li>
+        <li><a style="display: none" href="{% url 'about' %}">{% trans 'Information' %}</a></li>
+        {% if request.user.username %}
+            <li class="dropdown ">
+                <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="true">
+                    <i class="icono-arg-login">  </i>&nbsp;{{request.user.username}}
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a style="display: none" id class="dropdown-item" href="{% url 'bioresources:available_tools' %}">{% trans 'Jobs' %}</a></li>
+                    <li><a href="{% url 'bioresources:user_resources' %}">{% trans 'Resources' %}</a></li>
+                    <li><a href="{% url 'account_logout' %}">{% trans 'Logout' %}</a></li>
+                </ul>
+            </li>
+        {% else %}
+            <li><a href="{% url 'account_login' %}?next={{ request.path }}"><i class="icono-arg-login">  </i>&nbsp;{% trans 'Login' %} / {% trans 'Register' %}</a></li>
+        {% endif %}
+    </ul>
+</div><!-- /.navbar-collapse -->

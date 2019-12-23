@@ -1,0 +1,58 @@
+<div  id="mynetwork" style="height: 500px;width: 100%;display: none"></div>
+</div>
+
+<script type="text/javascript">
+
+    const color_map = {
+        "Assembly":"yellow",
+        "Country":"SALMON",
+        "Expression":"pink",
+        "Person":"orange",
+        "Publication":"lime",
+        "Sample":"grey",
+        "Organization":"pink",
+        "Reads":"lightblue",
+        // "Sample":"green",
+        "Tool":"darkgreen",
+    };
+    function create_graph(){return;
+        const container = document.getElementById('mynetwork');
+        const nodes = new vis.DataSet([
+            {% for x in graph.nodes %}
+            {id: '{{x.id}}', label: '{{x.label}}',color:({{pk}} === '{{x.id}}') ? "INDIANRED" : color_map['{{x.ntype}}']},
+            {% endfor%}
+        ]);
+
+        const edges = new vis.DataSet([
+            {% for x in graph.edges %}
+            {from: '{{x.from}}', to: '{{x.to}}',arrows:'to'},
+            {% endfor %}
+        ]);
+
+        const data = {
+            nodes: nodes,
+            edges: edges
+        };
+        const options = {
+            font: {color:"white"},
+            nodes: {
+                  shape: 'box'
+                },
+            layout: {
+                randomSeed: 1,
+            },
+              physics: {
+                 "forceAtlas2Based": {
+                   "gravitationalConstant": -138,
+                   "centralGravity": 0.02,
+                   "springLength": 100
+                 },
+                 "minVelocity": 0.75,
+                 "solver": "forceAtlas2Based",
+               }
+             // layout: {  hierarchical: {   direction: "UD"  }    }
+        };
+          $.network = new vis.Network(container, data, options);
+          $.network.focus({{pk}})
+    }
+    </script>

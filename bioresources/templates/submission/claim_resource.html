@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load bioresources_extras %}
+
+{% block content %}
+<form method="POST">
+
+<div class="row">
+    <div class="col-md-12">
+    {% csrf_token %}
+    <h2>{% trans 'Claim resource: ' %}</h2>
+    {{ resource.name }}
+    <p>{{ resource.description }}</p>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+
+    <select class="form-control"  name="relation">
+                {% for k,v in collaboration_types.items %}
+                    <option value="{{k}}">{% trans v %}   </option>
+
+                {% endfor  %}
+
+    </select>
+
+    </div>
+    <button type="submit" class="btn btn-primary"> {% trans 'Accept' %}  </button>
+    </div>
+</form>
+
+{% endblock %}

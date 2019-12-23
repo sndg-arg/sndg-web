@@ -1,0 +1,110 @@
+<metadata xmlns=\"http://www.lyncode.com/xoai\">
+    <element name=\"dc\">
+
+        {% for creator in r.creators.all %}
+        <element name=\"contributor\">
+            <element name=\"creator\">
+            <field name=\"value\">{{r.creator.complete_name}}</field>
+         </element>
+         {% endfor %}
+
+      </element>
+        <element name=\"date\">
+
+            <element name=\"available\">
+                
+            <field name=\"value\">{{r.updated_at|date:'Y-m-d'}}</field>
+         </element>
+            <element name=\"issued\">
+                
+            <field name=\"value\">{{r.created_at|date:'Y-m-d'}}</field>
+         </element>
+        </element>
+
+        <element name=\"identifier\">
+            <element name=\"citation\">
+            <field name=\"value\">{{r.name}}</field>
+         </element>
+            <element name=\"uri\">
+            <field name=\"value\">{{r.get_absolute_url}}</field>
+         </element>
+
+        </element>
+        <element name=\"description\">
+            
+            <element name=\"abstract\">
+                <element name=\"eng\">
+                    <field name=\"value\"> {{r.description}} </field>
+            </element>
+         </element>
+
+
+        </element>
+        <element name=\"format\">
+            
+        <element name=\"none\">
+            <field name=\"value\">text/plain</field>
+         </element>
+      </element>
+        <element name=\"language\">
+            
+        <element name=\"iso\">
+            <field name=\"value\">en</field>
+         </element>
+      </element>
+        <element name=\"publisher\">
+
+        {% for publisher in r.publishers.all %}
+
+        <element name=\"none\">
+            <field name=\"value\">{{publisher.name}}</field>
+         </element>
+
+        {% endfor %}
+
+      </element>
+        
+        <element name=\"subject\">
+
+            <element name=\"eng\">
+            {% for kw in r.keywords.all %}
+                <field name=\"value\">{{kw.name}}</field>
+            {% endfor %}
+            </element>
+
+        </element>
+        <element name=\"title\">
+            <element name=\"por\">
+                <field name=\"value\">{{r.title}}</field>
+            </element>
+
+        </element>
+        <element name=\"type\">
+            
+        <element name=\"status\">
+            <field name=\"value\">info:eu-repo/semantics/publishedVersion</field>
+         </element>
+         <element name=\"driver\">
+            <field name=\"value\">info:eu-repo/semantics/other</field>
+         </element>
+      </element>
+      <element name=\"rights\">
+       {% for right in r.metadata_dc_rights %}
+         <element name=\"driver\">
+            <field name=\"value\">{{right}}</field>
+         </element>
+       {% endfor %}
+      </element>
+
+   </element>
+
+    <element name=\"others\">
+        <field name=\"handle\">{{r.handle}}</field>
+        <field name=\"identifier\">{{r.permalink}}</field>
+        <field name=\"lastModifyDate\">{{r.updated_at|date:"Y-m-d H:M:S"}}</field>
+    </element>
+    <element name=\"repository\">
+        <field name=\"name\">SNDG</field>
+        <field name=\"mail\"/>
+    </element>
+</metadata>

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load bioresources_extras %}
+
+
+{% block head %}
+
+{% endblock %}
+
+{% block content %}
+
+<h2> {{hgvs}}  </h2>
+<table>
+{% for va in assignments %}
+<tr>
+<td>{{va.variant_collection_fk.sample}}</td>
+<td>{{va.variant_fk.gene.locus_tag}}</td>
+<td>{{va.allele_fk.hgvs_c}}</td>
+<td>{{va.allele_fk.main_effect_fk.hgvs_p}}</td>
+
+
+</tr>
+{% endfor %}
+</table>
+
+
+
+{% endblock %}

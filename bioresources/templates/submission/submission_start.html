@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% load crispy_forms_tags %}
+
+{% load static %}
+{% load bioresources_extras %}
+
+{% block head %}
+
+
+
+{% endblock %}
+
+
+{% block content %}
+        <section class="col-md-9" >
+                <table class="table">
+                <tr><td>{% trans 'Import a resource from NCBI/EBI/BOLD' %}</td><td><a href="{% url 'bioresources:submission_import' %}">{% trans 'Import' %}</a> </td></tr>
+                <tr style="display: none"><td>{% trans 'From the publications or data that you already uploaded, import related resources' %}</td><td><a href="{% url 'bioresources:submission_related'%}">{% trans 'Related' %}</a> </td></tr>
+                <tr style="display: none"><td>{% trans 'Load data that is not in the international deposition databases' %}</td><td><a href="{% url 'bioresources:submission_new'%}">{% trans 'New' %}</a> </td></tr>
+                <tr><td>{% trans 'Add a new tool' %}</td><td><a href="{% url 'bioresources:tool_submission'%}">{% trans 'New' %}</a> </td></tr>
+
+                <tr><td>{% trans 'Add a new Bioproject' %}</td><td><a href="{% url 'bioresources:bioproject_submission' %}">{% trans 'New' %}</a> </td></tr>
+                <tr><td>{% trans 'Add a new Assembly' %}</td><td><a href="{% url 'bioresources:assembly_submission'%}">{% trans 'New' %}</a> </td></tr>
+
+                <tr><td>{% trans 'Add a new Sequencing' %}</td><td><a href="{% url 'bioresources:reads_submission'%}">{% trans 'New' %}</a> </td></tr>
+                <tr><td>{% trans 'Add a new Expression Data' %}</td><td><a href="{% url 'bioresources:expression_submission'%}">{% trans 'New' %}</a> </td></tr>
+
+
+                <tr style="display:none;"><td>{% trans 'Add/Import batch data' %}</td><td><a href="{% url 'bioresources:batch_import'%}">{% trans 'Load csv' %}</a> </td></tr>
+
+
+
+
+                </table>
+        </section>
+{% endblock %}

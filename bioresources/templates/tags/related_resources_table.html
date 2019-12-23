@@ -1,0 +1,25 @@
+{% load i18n %}
+
+{% for rtype,resources in related_resources.items %}
+<hr />
+<table class="table related_resources_table" >
+<thead><tr><th>{% trans rtype %}</th></tr></thead>
+    <tbody>
+    {% for resource in resources %}
+        <tr><td><a href="{{resource.url}}"> {{resource.title}} </a></td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endfor %}
+
+<script type="text/javascript">
+    $(".related_resources_table").DataTable(
+        {
+        dom: 'ift' ,
+        {% if resources.length  < 10 %}
+        paging: false,searching: false
+
+        {% endif %}
+        }
+    )
+</script>

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load bioresources_extras %}
+
+{% block content %}
+<div class="col-lg-9">
+<form action="{% url 'bioresources:tool_submission' %}" method="post">
+
+
+    {% crispy form %}
+
+</form>
+</div>
+{% endblock %}

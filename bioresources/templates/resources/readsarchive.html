@@ -1,0 +1,28 @@
+{% extends "base.html" %}image_filename="images/header/read.jpg"
+{% load static %}
+{% load i18n %}
+{% load bioresources_extras %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+{% endblock %}
+{% block header %}
+    {% include "header.html" with class="bg-lima" section_name="Dato de secuenciación"%}
+{% endblock %}
+
+{% block content %}
+    {% resource_actions readsarchive collaboration request %}
+    <div class="col-md-12">
+        {% resource_table readsarchive external_url %}
+    </div>
+
+  {% related_resources_summary pk rtype_src related_resources level %}
+  {% resource_graph pk graph %}
+
+  <script type="text/javascript">
+    $(document).ready(()=>{
+        create_graph()
+    });
+  </script>
+{% endblock %}

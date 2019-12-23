@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load bioresources_extras %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+{% endblock %}
+
+{% block header %}
+    {% include "header.html" with class="bg-arandano" section_name="Taxon"%}
+{% endblock %}
+
+{% block content %}
+            <h1>{{object.scientific_name}}</h1>
+            <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id={{object.ncbi_taxon_id}}" target="_blank">
+                NCBI Taxon: {{object.ncbi_taxon_id}}</a>
+
+            <ul>
+                {% for k,v in object.other_names.items  %}
+                <li><b>{{k}}</b>: {{v}} </li>
+                {% endfor %}
+            </ul>
+
+            Linaje:
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb" style="margin-top:0px;margin-bottom: 20px;">
+              {% for p in object.parents reversed  %}
+                <li class="breadcrumb-item active" aria-current="page">
+                    <a href="{% url 'bioresources:tax_view' p.ncbi_taxon_id %}"> {{p.scientific_name}} </a> </li>
+              {% endfor %}
+              </ol>
+            </nav>
+
+
+            {% if object.children.count %}
+            Hijos:
+            <ul>
+            {% for c in object.children.all %}
+               <li>
+                    <a href="{% url 'bioresources:tax_view' c.ncbi_taxon_id %}"> {{c.scientific_name}} </a> </li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+
+
+              {% related_resources_summary pk rtype_src related_resources %}
+              {% resource_graph pk graph %}
+
+              <script type="text/javascript">
+                $(document).ready(()=>{
+                    create_graph()
+                });
+              </script>
+{% endblock %}
+

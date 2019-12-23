@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load bioresources_extras %}
+
+
+{% block head %}
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"/>
+
+{% endblock %}
+
+{% block content %}
+
+
+<h1>{{variant_collection_set.name}}</h1>
+{% if variant_collection_set.description %}
+<div>{{variant_collection_set.description}}</div>
+{% endif %}
+
+
+{% if stats_genetic %}
+<h2>Phenotype/Genotype</h2>
+
+{% if p_total.tested != 0 %}
+<h3>Stats</h3>
+<table class="table table-responsive">
+<thead>
+    <tr>
+        <th>Phenotype</th>
+        {% for metric in metrics %}
+        <th>{{metric}}</th>
+        {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+    {% for p in stats %}
+    <tr>
+        <td>{{p}}</td>
+        {% for metric in metrics %}
+            {% if metric|length == 2 %}
+                <td title="{{stats|getattribute:p|getattribute:metric|join:", "}}"> {{stats|getattribute:p|getattribute:metric|length}} </td>
+            {% else %}
+                <td>    {{stats|getattribute:p|getattribute:metric|floatformat:-2}} </td>
+            {% endif %}
+        {% endfor %}
+            </tr>
+    {% endfor %}
+
+    <tr>
+        <th>Total</th>
+        {% for metric in metrics %}
+            <th> {{p_total|getattribute:metric|floatformat:-2}} </th>
+        {% endfor %}
+    </tr>
+</tbody>
+</table>
+
+
+
+<h3>Genetic detail</h3>
+<table class="table table-responsive">
+<thead>
+    <tr>
+    <th>Phenotype/Variant</th>
+    {% for metric in metrics %}
+        {% if metric|length == 2%}
+            <th>{{metric}}</th>
+        {% endif %}
+    {% endfor %}
+    </tr>
+</thead>
+<tbody>
+    {% for p in stats_genetic_conclusive %}
+        <tr>
+            <td><b>{{p}}</b></td>
+            {% for metric in metrics %}
+                {% if metric|length == 2 %}
+                  <td> {{stats|getattribute:p|getattribute:metric|length}} </td>
+                {% endif %}
+            {% endfor %}
+        </tr>
+
+            {% for v in stats_genetic_conclusive|getattribute:p %}
+            <tr>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{v}}</td>
+                {% for metric in metrics %}
+                    {% if metric|length == 2 %}
+                    <td  title="{{stats_genetic_conclusive|getattribute:p|getattribute:v|getattribute:metric|join:", "}}" >
+                                {{stats_genetic_conclusive|getattribute:p|getattribute:v|getattribute:metric|length}} </td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+            {% endfor %}
+
+
+
+    {% endfor %}
+</table>
+
+{% endif %}
+
+<h3>Detail</h3>
+<p>(phenotype|genotype support count)</p>
+<table id="table_strain_phenotype" class="table table-responsive">
+<thead>
+<tr>
+<td>Name</td>
+ {% for p in phenotypes %}
+ <td>{{p.name}}</td>
+ {% endfor %}
+</tr>
+</thead>
+<tbody>
+ {% for sample in pheno_table %}
+ <tr>
+ <td>{{sample.name}}</td>
+
+ {% for pheno in sample.phenos %}
+ <td> {{pheno.phenotype}} | {{pheno.genotype|length}}</td>
+
+ {% endfor %}
+
+ </tr>
+ {% endfor %}
+ </tbody>
+</table>
+
+
+{% else %}
+ <h3> No Genotype data loaded </h3>
+{% endif %}
+
+
+<h2>Variants</h2>
+
+
+<div>
+
+{% paginator query page_obj request.GET %}
+
+</div>
+
+
+<table class="table table-responsive">
+<tr>
+<td>Chrom</td>
+<td>Pos</td>
+<td>Gene</td>
+<td>Gene pos</td>
+<td>Ref</td>
+<td>A</td>
+<td>C</td>
+<td>G</td>
+<td>T</td>
+
+<td>AApos</td>
+<td>AAref</td>
+<td>AAalts</td>
+
+</tr>
+
+
+
+{% for variant in variants %}
+<tr>
+
+
+
+<td>{{variant.chrom}}</td>
+<td>
+    <a href="{% url 'vardb:variant_view' variant.id %}?collection_set={{variant_collection_set.id}}" >
+        {{variant.pos}} </a>
+</td>
+<td>{{variant.gene}}</td>
+<td>{{variant.gene_pos}}</td>
+<td>{{variant.ref}}</td>
+
+
+<td>{{variant.A}}</td>
+<td>{{variant.C}}</td>
+<td>{{variant.G}}</td>
+<td>{{variant.T}}</td>
+
+
+
+
+
+
+
+{% endfor %}
+</table>
+
+
+<script type="text/javascript">
+    // create an array with nodes
+
+    $(document).ready(function() {
+        $('#table_strain_phenotype').DataTable({
+        "lengthMenu": [[10, -1], [10, "All"]],
+        dom : 'Brtilp',
+        });
+    } );
+
+</script>
+
+{% endblock %}

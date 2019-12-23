@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load bioresources_extras %}
+
+{% block content %}
+
+<form method="POST">
+{% csrf_token %}
+{% trans 'Associate: ' %}
+<p>
+<b> {{ resource1.name }}</b>
+</p>
+{% trans ' with ' %}
+<p>
+<b> {{ resource2.name }}</b>
+</p>
+
+<hr />
+<button type="submit" class="btn btn-primary"> {% trans 'Accept' %}  </button>
+
+</form>
+
+{% endblock %}

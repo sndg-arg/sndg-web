@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load bioresources_extras %}
+
+{% block content %}
+
+<form method="POST">
+{% csrf_token %}
+{% trans 'Claim identity: ' %} <b> {{ person.complete_name }}</b>
+<hr />
+<button type="submit" class="btn btn-primary"> {% trans 'Accept' %}  </button>
+
+</form>
+
+{% endblock %}

@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% load i18n %}
+{% load static %}
+{% load bioresources_extras %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block content %}
+<div class="col-lg-9">
+
+    {% csrf_token %}
+
+    <h3>
+    Asociar datos al recurso: <b>{{resource.name}}</b>
+    </h3>
+
+    <h4>
+    Tipos de datos permitidos:
+    </h4>
+    <p>
+        Genoma o Transcriptoma ensamblado: Fasta o Genebank
+    </p>
+    <p  style="display: None;">
+        Secuenciamiento (genoma, transcriptoma, exoma, otros): Fastq o Bam <br />
+        En el caso se subir lecturas pareadas se debe subir un único archivo .gz
+        con los archivos R1.fastq y R2.fastq
+    </p>
+    <div style="display: None;"> <p> Anotaciones:
+            Genómicas: GFF o GTF<br />
+                       CSV El identificador debe ser el nro de acceso de la secuencia<br />
+
+            Datos de Muestra: csv <br />
+
+             <br />
+             Detalles csv: encoding utf-8, caracteres: comentario #  escape \ separador , texto "
+              </p> </div>
+
+    <p>Todos los datos deben estar comprimidos con el programa gzip y no pueden superar los 500Mb</p>
+
+    <button id="browseButton">{% trans 'Select file' %}</button>
+
+    <h1 style="display: none;" id="okHeader">{% trans 'Data uploaded, redirecting...' %}</h1>
+
+
+    <div id="div_files"></div>
+
+        <p><input style="display: none;" type="button" value="{% trans 'Upload File' %}" id="btn_start_upload" /></p>
+
+    <script type="text/javascript" src="{% static 'resumable.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+            var r = new Resumable({
+                simultaneousUploads :1 ,maxFiles:1,
+                fileType: ['fasta.gz', 'fna.gz','gb.gz','gbk.gz'],
+                target:"{% url 'bioresources:upload_resource' resource_id %}",
+                query:{csrfmiddlewaretoken:csrftoken}
+            });
+
+            r.on('fileSuccess',(file) => {
+
+                $("#progressbar").removeClass("bg-info").addClass("bg-success");
+                $("#progressbar").css('width',"100%");
+                // $('#btn_start_upload').show();
+                // $('#browseButton').show();
+                $('#btnCancel').remove();
+                $('#okHeader').show();
+                setTimeout(function(){ window.location  = "{{ resource.get_absolute_url }}"; }, 5000);
+
+            });
+            r.on('fileProgress',(file) => {
+                $("#progressbar").css('width', Math.round( file.progress() * 100 ).toString() + "%" );
+
+            });
+            r.on('fileAdded',(file) => {
+                $("#btn_start_upload").show();
+                $("#div_files").empty();
+                $("#div_files").append($("<span/>").html(file.fileName));
+                const progressBar = $("<div/>",{id:"progressbar",
+                    "aria-valuemin":0,"aria-valuenow":0,
+                    "aria-valuemax":100,role:"progressbar"
+                }).addClass("progress-bar").addClass("bg-info");
+                const progressContainer =  $("<div/>",{height: "20px"}).addClass("progress");
+                progressContainer.append(progressBar)
+                $("#div_files").append(progressContainer  );
+                console.log(file)
+            });
+            r.on('fileRetry',(file) => {
+                console.log("retrying...")
+            });
+            r.on('fileError',(file, message) => {
+                $("#progressbar").removeClass("bg-info").addClass("bg-danger");
+                $('#btn_start_upload').show();
+                $('#browseButton').show();
+                $('#btnCancel').remove();
+                alert(message)
+            });
+            /*
+            r.on('catchAll' ,x=>{
+                console.log(x)
+            })
+            */
+            if(!r.support) {alert("browser not supported")};
+            r.assignBrowse(document.getElementById('browseButton'));
+            $("#btn_start_upload").click(()=> {
+                $('#btn_start_upload').hide();
+                $('#browseButton').hide();
+                $("#div_files").append($("<button/>",{id:"btnCancel"}).html("Cancel").click(()=>{file.cancel(); }));
+                r.upload();
+            });
+        }, false);
+
+
+    </script>
+
+
+</div>
+{% endblock %}

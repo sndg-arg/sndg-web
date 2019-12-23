@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load bioresources_extras %}
+{% load pdbdb_extras %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+{% endblock %}
+
+{% block header %}
+    {% include "header.html" with class="bg-arandano" section_name="Structure" %}
+{% endblock %}
+
+{% block content %}
+    {% resource_actions pdb collaboration request %}
+    <div class="col-md-12">
+        {% resource_table pdb external_url %}
+    </div>
+
+    {% if loaded %}
+    {% pdb_structure pdb.name %}
+    {% else %}
+    <h2+>{% trans 'PDB is currenly in process...' %}</h2>
+    {% endif %}
+
+  {% related_resources_summary pk rtype_src related_resources level %}
+  {% resource_graph pk graph %}
+
+  <script type="text/javascript">
+    $(document).ready(()=>{
+        create_graph()
+    });
+  </script>
+{% endblock %}

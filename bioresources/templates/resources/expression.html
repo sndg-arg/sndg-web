@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load bioresources_extras %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+{% endblock %}
+
+{% block header %}
+    {% include "header.html" with class="bg-tomate" section_name="Expression"%}
+{% endblock %}
+
+{% block content %}
+    {% resource_actions expression collaboration request %}
+        <div class="col-md-12">
+            {% resource_table expression external_url %}
+            <table class="table">
+            {% if expression.sample_scope %}
+            <tr><td>Dato</td><td>{{expression.pdat}}</td></tr>
+            {% endif %}
+            {% if expression.gdstype %}
+            <tr><td>Tipo</td><td>{{expression.gdstype}}</td></tr>
+            {% endif %}
+            </table>
+        </div>
+
+  {% related_resources_summary pk rtype_src related_resources %}
+  {% resource_graph pk graph %}
+
+  <script type="text/javascript">
+    $(document).ready(()=>{
+        create_graph()
+    });
+  </script>
+{% endblock %}

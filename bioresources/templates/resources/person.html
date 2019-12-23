@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load bioresources_extras %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+{% endblock %}
+
+{% block header %}
+    {% include "header.html" with class="bg-primary" section_name="Person"%}
+{% endblock %}
+
+{% block content %}
+    {% if request.user.is_authenticated and request.user.validated and request.user.person.id == pk %}
+        {% trans 'Yourself' %}
+    {% else %}
+
+        {% if  person.user  %}
+            <span class="badge badge-success">{% trans 'Validated Identity' %}</span>
+        {% else %}
+            {% if request.user.is_authenticated and request.user.validated %}
+                <a href="{% url 'bioresources:claim_identity' pk %}"  role="button"
+                    class="btn btn-primary"  > {% trans 'Claim Identity' %} </a>
+            {% endif %}
+        {% endif%}
+    {% endif %}
+
+    <div class="col-md-12">
+
+        <h3>{{person.name}}, {{person.surname}} </h3>
+        {% related_resources_summary person.id 'Person' related_resources %}
+        {% resource_graph pk graph %}
+
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(()=>{
+
+          create_graph()
+
+      })
+</script>
+
+{% endblock %}

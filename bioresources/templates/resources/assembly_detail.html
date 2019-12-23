@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load bioresources_extras %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+{% endblock %}
+
+{% block header %}
+    {% include "header.html" with class="bg-maiz" section_name="Genome"%}
+{% endblock %}
+
+{% block content %}
+            <div class="col-md-12">
+            {% resource_actions object collaboration request %}
+            </div>
+
+            {% if can_upload %}
+            <div class="col-md-12">
+                <a class="btn btn-primary" href="{% url 'bioresources:upload_resource' object.id %}">{% trans 'Upload Genome' %}</a>
+            </div>
+            {% endif %}
+            <div class="col-md-12">
+                {% resource_table object external_url %}
+                <table class="table  table-responsive">
+                    {% if object.species_name %}
+                    <tr><td><b>Especie</b></td><td>{{ object.species_name }}</td></tr>
+                    {% endif %}
+
+                    {% if object.intraspecific_name %}
+                    <tr><td><b>IntraEspecie</b></td><td>{{ object.intraspecific_name }}</td></tr>
+                    {% endif %}
+
+                    <tr><td><b>Nivel</b></td><td>{{level|getattribute:object.level}}</td></tr>
+
+                    {% if object.assembly_type %}
+                    <tr><td><b>Tipo</b></td><td>{{ atypes|getattribute:object.assembly_type }}</td></tr>
+                    {% endif %}
+                </table>
+             </div>
+        </div>
+
+        <div class="row">
+             {% if not loaded %}
+                {% if processing %}
+                    {% trans 'Processing Assembly, annotation will be availiable shortly' %}
+                {% endif %}
+             {% endif %}
+            {% if contigs %}
+                <iframe  id="jbrowse"
+                 src="{% static 'jbrowse' %}/index.html?data=data/{{object.name}}&fullviewlink=false&menu=false&nav=true&tracklist=false&tracks=DNA,Genes"
+                 height="400px" width="100%"></iframe>
+
+                <div class="row">
+                    <h3>{% trans 'Sequences' %}</h3>
+
+                    {% if page_obj %}
+                    {% paginator query page_obj request.GET %}
+                    {% endif %}
+
+                    <table id="contig_table" class="table table-responsive">
+                        <thead>
+                            <tr><td>ID</td><td>Length</td>
+
+                            {% with feature_types='CDS tRNA rRNA regulatory ncRNA' %}
+                            {% for x in feature_types.split %}
+                            <td>{{x}}</td>
+                            {% endfor %}
+                            {% endwith %}
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for c in contigs %}
+                            <tr>
+                            <td><a href="{% url 'bioresources:nucleotide_view' c.bioentry_id %}"> {{c.accession}}</a></td>
+                            <td>{{lengths|getattribute:c.accession}}</td>
+
+                            {% with feature_types='CDS tRNA rRNA regulatory ncRNA' %}
+                            {% for x in feature_types.split %}
+                            <td>{{c.feature_counts|getattribute:x|default:"0" }}</td>
+                            {% endfor %}
+                            {% endwith %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                  {% related_resources_summary object.id "Assembly" related_resources %}
+                  {% resource_graph object.id graph %}
+
+                  <script type="text/javascript">
+                    $(document).ready(()=>{
+                        create_graph()
+                    });
+                  </script>
+            </div>
+{% endblock %}

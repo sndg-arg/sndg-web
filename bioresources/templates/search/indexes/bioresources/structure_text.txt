@@ -1,0 +1,10 @@
+{{ object.name }}
+{{ object.description }}
+{{ object.type }}
+{{ object.related_author_names | join:" " }}
+{{ object.related_org_names | join:" " }}
+{{ object.pdbClass }}
+{{ object.method }}
+{{ object.taxon_name }}
+
+

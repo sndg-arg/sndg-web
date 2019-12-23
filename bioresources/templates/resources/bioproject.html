@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+{% load bioresources_extras %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+{% endblock %}
+
+
+{% block content %}
+<div class="col-md-12">
+
+    {% resource_actions bioproject collaboration request %}
+
+     {% resource_table bioproject external_url %}
+
+    <table class="table">
+    {% if bioproject.sample_scope %}
+    <tr><td>Alcance</td><td>{{bioproject.sample_scope}}</td></tr>
+    {% endif %}
+    {% if bioproject.material %}
+    <tr><td>Material</td><td>{{bioproject.material}}</td></tr>
+    {% endif %}
+    {% if bioproject.capture %}
+    <tr><td>Captura</td><td>{{bioproject.capture}}</td></tr>
+    {% endif %}
+    {% if bioproject.target %}
+    <tr><td>Objetivo</td><td>{{bioproject.target}}</td></tr>
+    {% endif %}
+    {% if bioproject.method %}
+    <tr><td>Método</td><td>{{bioproject.method}}</td></tr>
+    {% endif %}
+    </table>
+
+{% related_resources_summary bioproject.id rtype_src related_resources %}
+  {% resource_graph bioproject.id graph %}
+
+  <script type="text/javascript">
+    $(document).ready(()=>{
+        create_graph()
+    });
+  </script>
+</div>
+{% endblock %}

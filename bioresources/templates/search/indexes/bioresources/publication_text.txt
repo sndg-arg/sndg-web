@@ -1,0 +1,12 @@
+{{ object.name }}
+{{ object.description }}
+{{ object.type }}
+{{ object.author_names | join:" " }}
+{{ object.affiliation_names | join:" " }}
+{{ object.doi }}
+{{ object.electronic_id }}
+{{ object.issn }}
+{{ object.pubmed_id }}
+
+
+

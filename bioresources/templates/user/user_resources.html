@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load bioresources_extras %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+
+{% endblock %}
+
+{% block content %}
+<div class="col-md-12">
+    <h1>{% trans "Resources" %}</h1>
+    <h4 id="username">{% trans "Username" %}: {{user.username}}</h4>
+    {% if person %}
+        <h4>{% trans "Name" %}: {{person.name}}, {{person.surname}}</h4>
+    {% else %}
+        <p>{% trans 'No person was claimed, select one:' %} <a href="{% url 'bioresources:search_view' %}?type=20">{% trans 'Person list' %}</a>  </p>
+    {% endif %}
+{% if collaborations %}
+
+<table class="table table-responsive-poncho">
+    <thead>
+        <th>{% trans "Resource" %}</th>
+        <th>{% trans "Type" %}</th>
+        <th>{% trans "Relation" %}</th>
+    </thead>
+    {% for collab in collaborations %}
+    <tr>
+        <td data-label="{% trans "Resource" %}"><a href="{{collab.resource.get_absolute_url}}">{{collab.resource.name}}</a></td>
+        <td data-label="{% trans "Type" %}">{% trans collab.resource.tname %}</td>
+        <td data-label="{% trans "Relation
+
+        " %}">{{collab.type}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% else %}
+
+<h1>{% trans 'No resources associated with this user' %}</h1>
+
+{% endif %}
+
+{% if graph %}
+{% resource_graph person.id graph %}
+{% endif %}
+  </div>
+
+
+<script type="text/javascript">
+  $(document).ready(()=>{
+
+      create_graph()
+
+  })
+</script>
+
+{% endblock %}

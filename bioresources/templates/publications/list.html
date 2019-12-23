@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load render_table from django_tables2 %}
+{% load bootstrap3 %}
+
+{% block title %}
+ Publications
+{% endblock %}
+
+
+{% block head %}
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.css" />
+{% endblock %}
+
+
+{% block content %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.js"></script>
+
+
+   {% if filter %}
+       <form action="" method="get" class="form form-inline">
+           {% bootstrap_form filter.form layout='inline' %}
+           {% bootstrap_button 'filter' %}
+       </form>
+   {% endif %}
+
+
+<script>
+  $(function() {
+    $( "#id_end_date" ).datepicker({
+      changeMonth: true,
+      changeYear: true,
+      yearRange: "1900:2012",
+      // You can put more options here.
+
+    });
+  });
+  </script>
+
+ {% render_table table  %}
+
+
+{% endblock %}

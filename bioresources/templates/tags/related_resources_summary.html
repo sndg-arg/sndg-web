@@ -1,0 +1,16 @@
+{% load i18n %}
+
+{% if related_resources %}
+<div class="col-md-4">
+<h3>{% trans 'Related resources:'%}</h3>
+<table class="table related_resources_table">
+    {% for rtype,resources in related_resources.items %}
+    <tr>
+        <th>{% trans rtype %}</th>
+        <td><a href="{% url 'bioresources:search_view' rtype_src rid rtype %}?level={{level}}"> {{resources|length}} </a></td>
+    </tr>
+    {% endfor %}
+</table>
+
+</div><hr />
+{% endif %}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load bioresources_extras %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+{% endblock %}
+
+{% block header %}
+    {% include "header.html" with class="bg-lima" section_name="Publication"%}
+{% endblock %}
+
+{% block content %}
+    <div class="col-md-12">
+        <h1>{{publication.name}}</h1>
+        <p>
+        {% for author in authors %}
+        <a href="{{author.get_absolute_url}}">{{author.complete_name }}</a> <sup>{{author.affs }}</sup>
+        {% endfor %}
+        </p>
+        <ol>
+         {% for org in publication.affiliation_names %}
+           <li> <a href="{{ org_map|getattribute:org|execute:'get_absolute_url' }}">{{org}}</a></li>
+         {% endfor %}
+        </ol>
+        <p>Fecha de publicación: {{publication.date_of_publication}}</p>
+    </div>
+    <div class="col-md-12">
+        <p>{{publication.description}}</p>
+    </div>
+    <div class="col-md-12">
+        {% if publication.issn %}
+        DOI : <a href="https://doi.org/{{publication.doi}}" target="_blank">{{publication.doi}}</a> |
+        {% endif %}
+        EID: {{publication.electronic_id}} |
+        {% if publication.issn %}
+        ISSN : {{publication.issn}}|
+        {% endif %}
+        {% if publication.pubmed_id %}
+        <a href="https://www.ncbi.nlm.nih.gov/pubmed/{{publication.pubmed_id}}" target="_blank">Pubmed</a>
+          {% endif %}
+    </div>
+
+    {% related_resources_summary pk rtype_src related_resources level %}
+    {% resource_graph pk graph %}
+
+    <script type="text/javascript">
+        $(document).ready(()=>{
+            create_graph()
+        });
+    </script>
+{% endblock %}

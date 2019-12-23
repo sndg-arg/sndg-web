@@ -1,0 +1,7 @@
+{{ object.scopus_id      }}
+{{ object.name }}
+{{ object.country }}
+{{ object.city }}
+
+
+

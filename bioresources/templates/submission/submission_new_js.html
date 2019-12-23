@@ -1,0 +1,72 @@
+
+{% extends "base.html" %}
+{% load i18n %}
+
+{% load crispy_forms_tags %}
+
+
+{% load static %}
+{% load bioresources_extras %}
+
+{% block head %}
+
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://surveyjs.azureedge.net/1.1.1/survey.jquery.min.js"></script>
+
+
+{% endblock %}
+
+
+{% block content %}
+
+<div id="surveyElement">a</div>
+
+<div id="result">1</div>
+
+<script>
+
+
+
+    var json = {
+      questions: [{
+        type: "matrixdynamic",
+        addRowText: "Add language",
+        columns: [{
+          name: "Language",
+          choices: ["Javascript", "Java", "Python", "CSS", "PHP", "Ruby", "C++", "C", "Shell", "C#", "Objective-C", "R", "VimL", "Go", "Perl", "CoffeeScript", "TeX", "Swift", "Scala", "Emacs List", "Haskell", "Lua", "Clojure", "Matlab", "Arduino", "Makefile", "Groovy", "Puppet", "Rust", "PowerShell"],
+          cellType: "dropdown",
+          isRequired: true,
+          hasOther: true,
+          choicesOrder: "asc"
+        }, {
+          name: "Experience",
+          choices: ["One year or less", "From one two three years", "From three to five years", "More then five years"],
+          cellType: "dropdown",
+          isRequired: true
+        }],
+        isRequired: true,
+        name: "languages",
+        rowCount: 1,
+        title: "What programming languages do you know?"
+      }]
+    };
+
+    Survey.defaultBootstrapCss.navigationButton = "btn btn-green";
+    Survey.defaultBootstrapCss.matrixdynamic.button = "btn btn-green";
+    Survey.Survey.cssType = "bootstrap";
+
+    var survey = new Survey.Model(json);
+
+    survey.onComplete.add(function(result) {
+        document.querySelector('#result').innerHTML = "result: " + JSON.stringify(result.data);
+    });
+
+    $("#surveyElement").Survey({
+      model: survey
+    });
+
+</script>
+
+{% endblock %}

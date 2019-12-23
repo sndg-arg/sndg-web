@@ -1,0 +1,1021 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-09-04 11:22+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: bioresources/management/commands/reset_db.py:53
+msgid "Are you  sure? If you want to continue write 'Delete'"
+msgstr ""
+
+#: bioresources/management/commands/reset_db.py:57
+msgid "Action canceled"
+msgstr ""
+
+#: bioresources/management/commands/reset_db.py:75
+msgid "Error deleting %(table)..."
+msgstr ""
+
+#: bioresources/models/Affiliation.py:18
+msgid "Affiliations"
+msgstr "Afiliaciones"
+
+#: bioresources/models/Assembly.py:33
+msgid "Assemblies"
+msgstr "Genomas"
+msgid "ASSEMBLY"
+msgstr "Genomas"
+
+#: bioresources/models/Barcode.py:20
+msgid "Barcodes"
+msgstr ""
+msgid "BARCODE"
+msgstr "Barcodes"
+
+#: bioresources/models/BioProject.py:44
+msgid "BioProjects"
+msgstr "BioProyectos"
+
+#: bioresources/models/BlastDB.py:32
+msgid "AA sequences"
+msgstr "Secuencias AA"
+
+#: bioresources/models/BlastDB.py:33
+msgid "Barcode Sequences"
+msgstr "Secuencias de Barcodes"
+
+#: bioresources/models/BlastDB.py:42
+msgid "BlastDBs"
+msgstr ""
+
+#: bioresources/models/Expression.py:16
+#: bioresources/templates/submission/submission_import.html:35
+msgid "Expression"
+msgstr "Expresión"
+msgid "EXPRESSION"
+msgstr "Expresión"
+
+#: bioresources/models/ExternalId.py:17
+msgid "ExternalId"
+msgstr "Id Externo"
+
+#: bioresources/models/Identity.py:20
+msgid "Identities"
+msgstr "Identidades"
+
+#: bioresources/models/Job.py:34
+msgid "Job"
+msgstr "Trabajo"
+
+#: bioresources/models/Organization.py:22 bioresources/views/index.py:45
+msgid "Organizations"
+msgstr "Organizaciones"
+
+#: bioresources/templates/resources/organization.html
+msgid "Organization"
+msgstr "Organización"
+
+#: bioresources/models/Person.py:23 bioresources/views/index.py:46
+msgid "Persons"
+msgstr "Personas"
+
+#: bioresources/templates/resources/person.html:12
+msgid "Person"
+msgstr "Persona"
+
+#: bioresources/models/Publication.py:21
+msgid "Publications"
+msgstr "Publicaciones"
+msgid "PUBLICATION"
+msgstr "Publicaciones"
+
+#: bioresources/models/ReadsArchive.py:15
+msgid "Reads Archive"
+msgstr "Datos de secuenciación"
+msgid "READS"
+msgstr "Datos de secuenciación"
+
+#: bioresources/models/Resource.py:31
+msgid "UNPROCESSED"
+msgstr "No procesado"
+
+#: bioresources/models/Resource.py:31
+msgid "PROTEIN"
+msgstr "Proteína"
+
+#: bioresources/templates/resources/protein_view.html:15
+msgid "Protein"
+msgstr "Proteína"
+
+#: bioresources/models/Resource.py:32
+msgid "ORGANIZATION"
+msgstr "Organizaciones"
+
+#: bioresources/models/Resource.py:32
+msgid "PERSON"
+msgstr "Personas"
+
+#: bioresources/models/Resource.py:129
+msgid "owner"
+msgstr "dueño"
+
+#: bioresources/models/Resource.py:130
+msgid "only_producer"
+msgstr "solo_productor"
+
+#: bioresources/models/Resource.py:131
+msgid "only_use"
+msgstr "solo_uso"
+
+#: bioresources/models/Resource.py:132
+msgid "other"
+msgstr "otro"
+
+#: bioresources/models/ResourceRelation.py:18
+msgid "Resource Relations"
+msgstr "Relaciones de recursos"
+
+#: bioresources/models/Sample.py:22
+msgid "Samples"
+msgstr "Muestras"
+msgid "SAMPLE"
+msgstr "Muestras"
+
+#: bioresources/models/Structure.py:18
+msgid "Structures"
+msgstr "Estructuras"
+#Para el título de los listados
+msgid "STRUCTURE"
+msgstr "Estructuras"
+
+#: bioresources/models/Tool.py:22
+msgid "Tools"
+msgstr "Herramientas"
+
+#: bioresources/bioresources/templates/tool.html:22
+msgid "Tool"
+msgstr "Herramienta"
+msgid "TOOL"
+msgstr "Herramienta"
+
+#: bioresources/tasks.py:32
+#, python-format
+msgid "Job results for ID: %(jid)s"
+msgstr "Resultados para el trabajo de ID: %(jid)s"
+
+#: bioresources/tasks.py:33
+#, python-format
+msgid "Haga <a href=\"%(link)s\">click aqui</a> para ver los resultados del trabajo%(jid)s"
+msgstr ""
+
+#: bioresources/templates/account/account_inactive.html:5
+#: bioresources/templates/account/account_inactive.html:8
+msgid "Account Inactive"
+msgstr "Cuenta inactiva"
+
+#: bioresources/templates/account/account_inactive.html:10
+msgid "This account is inactive."
+msgstr "Esta cuenta esta inactiva"
+
+#: bioresources/templates/account/email.html:5
+msgid "Account"
+msgstr "Cuenta"
+
+#: bioresources/templates/account/email.html:8
+msgid "E-mail Addresses"
+msgstr "Dirección de Correo"
+
+#: bioresources/templates/account/email.html:10
+msgid "The following e-mail addresses are associated with your account:"
+msgstr "Las siguientes direcciones de correo estan asociadas con su cuenta"
+
+#: bioresources/templates/account/email.html:24
+msgid "Verified"
+msgstr "Verificada"
+
+#: bioresources/templates/account/email.html:26
+msgid "Unverified"
+msgstr "No verificada"
+
+#: bioresources/templates/account/email.html:28
+msgid "Primary"
+msgstr "Principal"
+
+#: bioresources/templates/account/email.html:34
+msgid "Make Primary"
+msgstr "Hace principal"
+
+#: bioresources/templates/account/email.html:35
+msgid "Re-send Verification"
+msgstr "Re-enviar verificación"
+
+#: bioresources/templates/account/email.html:36
+msgid "Remove"
+msgstr "Quitar"
+
+#: bioresources/templates/account/email.html:43
+msgid "Warning:"
+msgstr "Advertencia:"
+
+#: bioresources/templates/account/email.html:43
+msgid ""
+"You currently do not have any e-mail address set up. You should really add "
+"an e-mail address so you can receive notifications, reset your password, etc."
+msgstr
+"Usted no tiene ninguna cuenta de email configurada. Le recomendamos que agregue "
+"una para recibir notificaciones, resetear su contraseña, etc."
+
+
+#: bioresources/templates/account/email.html:48
+msgid "Add E-mail Address"
+msgstr "Agregar una dirección de correo"
+
+#: bioresources/templates/account/email.html:53
+msgid "Add E-mail"
+msgstr "Agregar un email"
+
+#: bioresources/templates/account/email.html:62
+msgid "Do you really want to remove the selected e-mail address?"
+msgstr "¿Esta seguro que quieer quitar la cuenta de correo seleccionada?"
+
+#: bioresources/templates/account/email/email_confirmation_message.txt:1
+#, python-format
+msgid ""
+"Hello from %(site_name)s!\n"
+"\n"
+"You're receiving this e-mail because user %(user_display)s has given yours "
+"as an e-mail address to connect their account.\n"
+"\n"
+"To confirm this is correct, go to %(activate_url)s\n"
+msgstr
+"Bienvenido a %(site_name)s!\n"
+"\n"
+"Usted esta recibiendo este correo porque el usuario %(user_display)s ha dado esta "
+" direccion de e-mail para conectarla a su cuenta.\n"
+"\n"
+"Para confirmar haga click aqui: %(activate_url)s\n"
+
+#: bioresources/templates/account/email/email_confirmation_message.txt:7
+#, python-format
+msgid ""
+"Thank you from %(site_name)s!\n"
+"%(site_domain)s"
+msgstr ""
+
+#: bioresources/templates/account/email/email_confirmation_subject.txt:3
+msgid "Please Confirm Your E-mail Address"
+msgstr "Por favor confirme su dirección de correo"
+
+#: bioresources/templates/account/email/password_reset_key_message.txt:1
+#, python-format
+msgid ""
+"Hello from %(site_name)s!\n"
+"\n"
+"You're receiving this e-mail because you or someone else has requested a "
+"password for your user account.\n"
+"It can be safely ignored if you did not request a password reset. Click the "
+"link below to reset your password."
+msgstr ""
+
+#: bioresources/templates/account/email/password_reset_key_message.txt:8
+#, python-format
+msgid "In case you forgot, your username is %(username)s."
+msgstr ""
+
+#: bioresources/templates/account/email/password_reset_key_message.txt:10
+#, python-format
+msgid ""
+"Thank you for using %(site_name)s!\n"
+"%(site_domain)s"
+msgstr ""
+
+#: bioresources/templates/account/email/password_reset_key_subject.txt:3
+msgid "Password Reset E-mail"
+msgstr "Correo de reseteo de contraseña"
+
+#: bioresources/templates/account/email_confirm.html:6
+#: bioresources/templates/account/email_confirm.html:10
+msgid "Confirm E-mail Address"
+msgstr "Confirmar direccion de correo"
+
+#: bioresources/templates/account/email_confirm.html:16
+#, python-format
+msgid ""
+"Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
+"address for user %(user_display)s."
+msgstr ""
+
+#: bioresources/templates/account/email_confirm.html:20
+msgid "Confirm"
+msgstr "Confirmar"
+
+#: bioresources/templates/account/email_confirm.html:27
+#, python-format
+msgid ""
+"This e-mail confirmation link expired or is invalid. Please <a href="
+"\"%(email_url)s\">issue a new e-mail confirmation request</a>."
+msgstr ""
+
+#: bioresources/templates/account/login.html:6
+#: bioresources/templates/account/login.html:12
+#: bioresources/templates/account/login.html:51
+msgid "Sign In"
+msgstr "Ingresar"
+
+#: bioresources/templates/account/login.html:20
+#, python-format
+msgid ""
+"Please sign in with one\n"
+"of your existing third party accounts. Or, <a href=\"%(signup_url)s\">sign "
+"up</a>\n"
+"for a %(site_name)s account and sign in below:"
+msgstr ""
+
+#: bioresources/templates/account/login.html:40
+#, python-format
+msgid ""
+"If you have not created an account yet, then please\n"
+"<a href=\"%(signup_url)s\">sign up</a> first."
+msgstr ""
+
+#: bioresources/templates/account/login.html:50
+msgid "Forgot Password?"
+msgstr "¿Olvido su contraseña?"
+
+#: bioresources/templates/account/logout.html:5
+#: bioresources/templates/account/logout.html:8
+#: bioresources/templates/account/logout.html:17
+msgid "Sign Out"
+msgstr "Salir"
+
+#: bioresources/templates/account/logout.html:10
+msgid "Are you sure you want to sign out?"
+msgstr "¿Salir?"
+
+#: bioresources/templates/account/messages/cannot_delete_primary_email.txt:2
+#, python-format
+msgid "You cannot remove your primary e-mail address (%(email)s)."
+msgstr ""
+
+#: bioresources/templates/account/messages/email_confirmation_sent.txt:2
+#, python-format
+msgid "Confirmation e-mail sent to %(email)s."
+msgstr ""
+
+#: bioresources/templates/account/messages/email_confirmed.txt:2
+#, python-format
+msgid "You have confirmed %(email)s."
+msgstr ""
+
+#: bioresources/templates/account/messages/email_deleted.txt:2
+#, python-format
+msgid "Removed e-mail address %(email)s."
+msgstr ""
+
+#: bioresources/templates/account/messages/logged_in.txt:4
+#, python-format
+msgid "Successfully signed in as %(name)s."
+msgstr ""
+
+#: bioresources/templates/account/messages/logged_out.txt:2
+msgid "You have signed out."
+msgstr ""
+
+#: bioresources/templates/account/messages/password_changed.txt:2
+msgid "Password successfully changed."
+msgstr ""
+
+#: bioresources/templates/account/messages/password_set.txt:2
+msgid "Password successfully set."
+msgstr ""
+
+#: bioresources/templates/account/messages/primary_email_set.txt:2
+msgid "Primary e-mail address set."
+msgstr ""
+
+#: bioresources/templates/account/messages/unverified_primary_email.txt:2
+msgid "Your primary e-mail address must be verified."
+msgstr ""
+
+#: bioresources/templates/account/password_change.html:5
+#: bioresources/templates/account/password_change.html:8
+#: bioresources/templates/account/password_change.html:13
+#: bioresources/templates/account/password_reset_from_key.html:4
+#: bioresources/templates/account/password_reset_from_key.html:7
+#: bioresources/templates/account/password_reset_from_key_done.html:4
+#: bioresources/templates/account/password_reset_from_key_done.html:7
+msgid "Change Password"
+msgstr "Cambiar contraseña"
+
+#: bioresources/templates/account/password_reset.html:6
+#: bioresources/templates/account/password_reset.html:10
+#: bioresources/templates/account/password_reset_done.html:6
+#: bioresources/templates/account/password_reset_done.html:9
+msgid "Password Reset"
+msgstr ""
+
+#: bioresources/templates/account/password_reset.html:15
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we'll send you "
+"an e-mail allowing you to reset it."
+msgstr ""
+
+#: bioresources/templates/account/password_reset.html:20
+msgid "Reset My Password"
+msgstr ""
+
+#: bioresources/templates/account/password_reset.html:23
+msgid "Please contact us if you have any trouble resetting your password."
+msgstr ""
+
+#: bioresources/templates/account/password_reset_done.html:15
+msgid ""
+"We have sent you an e-mail. Please contact us if you do not receive it "
+"within a few minutes."
+msgstr ""
+
+#: bioresources/templates/account/password_reset_from_key.html:7
+msgid "Bad Token"
+msgstr ""
+
+#: bioresources/templates/account/password_reset_from_key.html:11
+#, python-format
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
+"a>."
+msgstr ""
+
+#: bioresources/templates/account/password_reset_from_key.html:17
+msgid "change password"
+msgstr ""
+
+#: bioresources/templates/account/password_reset_from_key.html:20
+#: bioresources/templates/account/password_reset_from_key_done.html:8
+msgid "Your password is now changed."
+msgstr ""
+
+#: bioresources/templates/account/password_set.html:5
+#: bioresources/templates/account/password_set.html:8
+#: bioresources/templates/account/password_set.html:13
+msgid "Set Password"
+msgstr ""
+
+#: bioresources/templates/account/signup.html:5
+msgid "Signup"
+msgstr ""
+
+#: bioresources/templates/account/signup.html:8
+#: bioresources/templates/account/signup.html:18
+msgid "Sign Up"
+msgstr "Si aún no tenés cuenta, registrate"
+
+#: bioresources/templates/account/signup.html:10
+#, python-format
+msgid ""
+"Already have an account? Then please <a href=\"%(login_url)s\">sign in</a>."
+msgstr ""
+
+#: bioresources/templates/account/signup_closed.html:5
+#: bioresources/templates/account/signup_closed.html:8
+msgid "Sign Up Closed"
+msgstr ""
+
+#: bioresources/templates/account/signup_closed.html:10
+msgid "We are sorry, but the sign up is currently closed."
+msgstr ""
+
+#: bioresources/templates/account/snippets/already_logged_in.html:5
+msgid "Note"
+msgstr ""
+
+#: bioresources/templates/account/snippets/already_logged_in.html:5
+#, python-format
+msgid "you are already logged in as %(user_display)s."
+msgstr ""
+
+#: bioresources/templates/account/verification_sent.html:5
+#: bioresources/templates/account/verification_sent.html:8
+#: bioresources/templates/account/verified_email_required.html:5
+#: bioresources/templates/account/verified_email_required.html:8
+msgid "Verify Your E-mail Address"
+msgstr ""
+
+#: bioresources/templates/account/verification_sent.html:10
+msgid ""
+"We have sent an e-mail to you for verification. Follow the link provided to "
+"finalize the signup process. Please contact us if you do not receive it "
+"within a few minutes."
+msgstr ""
+
+#: bioresources/templates/account/verified_email_required.html:12
+msgid ""
+"This part of the site requires us to verify that\n"
+"you are who you claim to be. For this purpose, we require that you\n"
+"verify ownership of your e-mail address. "
+msgstr ""
+
+#: bioresources/templates/account/verified_email_required.html:16
+msgid ""
+"We have sent an e-mail to you for\n"
+"verification. Please click on the link inside this e-mail. Please\n"
+"contact us if you do not receive it within a few minutes."
+msgstr ""
+
+#: bioresources/templates/account/verified_email_required.html:20
+#, python-format
+msgid ""
+"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
+"mail address</a>."
+msgstr ""
+
+#: bioresources/templates/forms/submission.html:17
+msgid "Herramienta"
+msgstr ""
+
+#: bioresources/templates/forms/submission.html:18
+msgid "Estudio"
+msgstr ""
+
+#: bioresources/templates/forms/submission.html:19
+msgid "Muestra/s"
+msgstr ""
+
+#: bioresources/templates/forms/submission.html:20
+msgid "Lecturas/Experimento de secuenciacion"
+msgstr ""
+
+#: bioresources/templates/forms/submission.html:21
+msgid "Genoma/s"
+msgstr "Genoma/s"
+
+#: bioresources/templates/forms/submission.html:22
+msgid "Secuencia/s o Barcode/s"
+msgstr ""
+
+#: bioresources/templates/forms/submission.html:23
+msgid "Estructura"
+msgstr ""
+
+#: bioresources/templates/forms/submission.html:24
+msgid "Compuesto"
+msgstr ""
+
+#: bioresources/templates/index.html:75
+msgid "Did you mean?:"
+msgstr ""
+
+#: bioresources/templates/resources/assembly_detail.html:33
+msgid "Processing Assembly, annotation will be availiable shortly"
+msgstr "Procesando el genoma... la anotación estará disponible en breve."
+
+#: bioresources/templates/resources/assembly_detail.html:43
+msgid "Sequences"
+msgstr "Secuencias"
+
+#: bioresources/templates/resources/nucleotide_view.html:43
+msgid "Sequence"
+msgstr "Secuencia"
+
+#: bioresources/templates/resources/nucleotide_view.html:34
+msgid "Annotations"
+msgstr "Anotaciones"
+
+#: bioresources/templates/resources/person.html:17
+msgid "Yourself"
+msgstr "Usted"
+
+#: bioresources/templates/resources/person.html:21
+msgid "Validated Identity"
+msgstr "Identidad Validada"
+
+#: bioresources/templates/resources/person.html:25
+msgid "Claim Identity"
+msgstr "Reclamar identidad"
+
+#: bioresources/templates/resources/structure.html:27
+msgid "PDB is currenly in process..."
+msgstr "Su estructura se esta procesando..."
+
+#: bioresources/templates/resources/tool.html:27
+msgid "You claimed this resource"
+msgstr "Usted indico que este recurso es propio"
+
+#: bioresources/templates/resources/tool.html:35
+msgid "Claim resource"
+msgstr "Indicar que estoy relacionado con este recurso"
+
+#: bioresources/templates/resources/tool.html:41
+msgid "Select to relate"
+msgstr "Seleccionar este recurso para relacionar con otro"
+
+#: bioresources/templates/resources/tool.html:46
+msgid "Relate_with:"
+msgstr "Relacionar con:"
+
+#: bioresources/templates/search/search.html:92
+#: bioresources/templates/tags/paginator.html:12
+msgid "Search"
+msgstr "Buscar"
+
+#: bioresources/templates/search/search.html:92
+#: bioresources/templates/tags/paginator.html:12
+msgid "results for"
+msgstr "resultados para"
+
+#: bioresources/templates/search/search.html:98
+#: bioresources/templates/tags/paginator.html:20
+msgid "First"
+msgstr "Primero"
+
+#: bioresources/templates/search/search.html:113
+#: bioresources/templates/tags/paginator.html:35
+msgid "Last"
+msgstr "Último"
+
+#: bioresources/templates/search/search_related.html:12
+msgid "related with"
+msgstr "relacionado con"
+
+#: bioresources/templates/search/search_related.html:26
+msgid "No se encontraron resultados."
+msgstr "No se encontraron resultados."
+
+#: bioresources/templates/submission/claim_identity.html:11
+msgid "Claim identity: "
+msgstr "Indicar como propia esta identidad:"
+
+#: bioresources/templates/submission/claim_identity.html:13
+#: bioresources/templates/submission/claim_resource.html:32
+#: bioresources/templates/submission/submission_related.html:21
+msgid "Accept"
+msgstr "Aceptar"
+
+#: bioresources/templates/submission/claim_resource.html:14
+msgid "Claim resource: "
+msgstr "Indicar relacion con este recurso"
+
+#: bioresources/templates/submission/submission_import.html:11
+msgid ""
+"Ingrese el recurso a importar. Puede copiar un link, el numero de acceso al "
+"proyecto, publicacione, genoma, lecturas, muestra, estructura o datos de "
+"expresion. Por ejemplo:"
+msgstr ""
+
+#: bioresources/templates/submission/submission_import.html:14
+msgid "Genome/Assembly"
+msgstr "Genoma/Ensamblado"
+
+#: bioresources/templates/submission/submission_import.html:33
+msgid "Genome"
+msgstr "Genoma"
+
+#: bioresources/templates/submission/submission_import.html:34
+msgid "Reads"
+msgstr "Secuenciación/Lecturas"
+
+#: bioresources/templates/submission/submission_import.html:36
+msgid "Sample"
+msgstr "Muestra"
+
+#: bioresources/templates/submission/submission_import.html:37
+msgid "Structure"
+msgstr "Estructura"
+
+#: bioresources/templates/submission/submission_import.html:38
+msgid "Publication"
+msgstr "Publicación"
+
+#: bioresources/templates/submission/submission_import.html:39
+msgid "Bioproject"
+msgstr "Bioproyecto"
+msgid "BIOPROJECT"
+msgstr "Bioproyecto"
+
+#: bioresources/templates/submission/submission_import.html:51
+msgid "Results"
+msgstr "Resultados"
+
+#: bioresources/templates/submission/submission_import.html:81
+msgid "Load selected resources"
+msgstr "Cargar los recursos seleccionados"
+
+#: bioresources/templates/submission/submission_import.html:87
+msgid "No results found for: "
+msgstr "No se encontraron resultados para:"
+
+#: bioresources/templates/submission/submission_related.html:11
+msgid "Associate: "
+msgstr "Asociar: "
+
+#: bioresources/templates/submission/submission_related.html:15
+msgid " with "
+msgstr " con "
+
+#: bioresources/templates/submission/submission_start.html:21
+msgid "Import a resource from NCBI/EBI/BOLD"
+msgstr "Importar un recurso desde NCBI/SCOPUS"
+
+#: bioresources/templates/submission/submission_start.html:21
+msgid "Import"
+msgstr "Importar"
+
+#: bioresources/templates/submission/submission_start.html:22
+msgid ""
+"From the publications or data that you already uploaded, import related "
+"resources"
+msgstr "Desde sus publicaciones o datos importar recursos relacionados"
+
+#: bioresources/templates/submission/submission_start.html:22
+msgid "Related"
+msgstr "Relacionado"
+
+#: bioresources/templates/submission/submission_start.html:23
+msgid "Load data that is not in the international deposition databases"
+msgstr "Cargar datos que no estan en bases de datos internacionales"
+
+#: bioresources/templates/submission/submission_start.html:23
+#: bioresources/templates/submission/submission_start.html:24
+msgid "New"
+msgstr "Nuevo"
+
+#: bioresources/templates/submission/submission_start.html:24
+msgid "Add a new tool"
+msgstr "Agregar una herramienta"
+
+#: bioresources/templates/tags/related_resources_summary.html:5
+msgid "Related resources:"
+msgstr "Recursos relacionados"
+
+#: bioresources/templates/tags/resource_table.html:11
+msgid "External link"
+msgstr "Descarga"
+
+#: bioresources/templates/tags/resource_table.html:15
+msgid "Publisher"
+msgstr "Publicador"
+
+#: bioresources/templates/tags/resource_table.html:18
+msgid "Taxon"
+msgstr "Taxón"
+
+#: bioresources/templates/tags/resource_table.html:22
+msgid "Last Updated"
+msgstr "Última actualización"
+
+#: bioresources/templates/tools/blast.html:216
+msgid "Blast Sequence"
+msgstr "Blast de la secuencia"
+
+#: bioresources/templates/tools/blast.html:228
+msgid "Blast Input"
+msgstr "Entrada de Blast"
+
+#: bioresources/templates/tools/blast.html:232
+msgid "Aminoacid"
+msgstr "Aminoácido"
+
+#: bioresources/templates/tools/blast.html:235
+msgid "nucleotides"
+msgstr "Nucleótidos"
+
+#: bioresources/templates/tools/blast.html:244
+msgid "Blast Databases"
+msgstr "Bases de datos para Blast"
+
+#: bioresources/templates/tools/blast.html:260
+msgid "Blast Type"
+msgstr "Tipo de Blast"
+
+#: bioresources/templates/tools/blast.html:280
+msgid "Blast Parameters"
+msgstr "Parametros de Blast"
+
+#: bioresources/templates/tools/generic_result.html:16
+msgid "There was an error runnning your job"
+msgstr "Hubo un error en la ejecución de su trabajo"
+
+#: bioresources/templates/tools/generic_result.html:20
+msgid "Your job is "
+msgstr "Su trabajo es "
+
+#: bioresources/templates/tools/generic_result.html:24
+msgid "Job Type"
+msgstr "Tipo de Trabajo"
+
+#: bioresources/templates/tools/generic_result.html:25
+msgid "Started"
+msgstr "Iniciado"
+
+#: bioresources/templates/tools/generic_result.html:26
+msgid "Elapsed time"
+msgstr "Tiempo transcurrido"
+
+#: bioresources/views/submission/SubmissionNewView.py:51
+#, python-format
+msgid "%s does not exists"
+msgstr "%s no existe"
+
+#: bioresources/views/submission/SubmissionNewView.py:56
+#, python-format
+msgid "%s already exists"
+msgstr "%s ya existe"
+
+
+#: admin.py:46 models.py:11 templates/tellme/tpl-overview.html:13
+msgid "Screenshot"
+msgstr "Captura de pantalla"
+
+#: admin.py:54
+msgctxt "Admin model"
+msgid "Browser Info"
+msgstr "Información del navegador"
+
+#: models.py:8
+msgid "Url"
+msgstr "Url"
+
+#: models.py:9
+msgid "Browser"
+msgstr "Navegador"
+
+#: models.py:10
+msgid "Comment"
+msgstr "Comentario"
+
+#: models.py:13
+msgid "User"
+msgstr "Usuario"
+
+#: models.py:14
+msgid "Creation date"
+msgstr "Fecha de creación"
+
+#: templates/tellme/initButtonText.txt:2
+msgid "Send feedback"
+msgstr "Enviar feedback"
+
+#: templates/tellme/tpl-description.html:3
+#: templates/tellme/tpl-highlighter.html:3
+#: templates/tellme/tpl-overview.html:3
+#: templates/tellme/tpl-submit-error.html:3
+#: templates/tellme/tpl-submit-success.html:3
+msgid "Feedback"
+msgstr "Feedback"
+
+#: templates/tellme/tpl-description.html:4
+msgid ""
+"Feedback lets you send us suggestions about this site. We welcome problem "
+"reports, feature ideas and general comments."
+msgstr "Desde aquí lo invitamos a enviar feedback, reportar errores y realizar consultas sobre el sitio"
+""
+
+#: templates/tellme/tpl-description.html:5
+msgid "Start by writing a brief description:"
+msgstr "Breve descripción:"
+
+#: templates/tellme/tpl-description.html:6
+msgid ""
+"Next we'll let you identify areas of the page related to your description."
+msgstr ""
+"Puede marcar un area particular de la pantalla"
+
+#: templates/tellme/tpl-description.html:7
+#: templates/tellme/tpl-highlighter.html:15
+msgid "Next"
+msgstr "Próximo"
+
+#: templates/tellme/tpl-description.html:8
+#: templates/tellme/tpl-overview.html:18
+msgid "Please enter a description."
+msgstr "Puede ampliar su descripción"
+
+#: templates/tellme/tpl-highlighter.html:4
+msgid ""
+"Click and drag on the page to help us better understand your feedback. You "
+"can move this dialog if it's in the way."
+msgstr ""
+"Puede clickear sobre este boton y marcar un area de la pagina para que entendamos mejor su reporte."
+"Puede mover este cuadro si se superpone con el area"
+
+#: templates/tellme/tpl-highlighter.html:7
+msgid "Highlight"
+msgstr "Marcar"
+
+#: templates/tellme/tpl-highlighter.html:8
+msgid "Highlight areas relevant to your feedback."
+msgstr "Marcar el area relevante para su feedback"
+
+#: templates/tellme/tpl-highlighter.html:11
+msgid "Black out"
+msgstr "Ocurecer"
+
+#: templates/tellme/tpl-highlighter.html:12
+msgid "Black out any personal information."
+msgstr "Bloquear cualquier información personal"
+
+#: templates/tellme/tpl-highlighter.html:18
+#: templates/tellme/tpl-overview.html:16
+msgid "Back"
+msgstr "Volver"
+
+#: templates/tellme/tpl-overview.html:5
+msgid "Description"
+msgstr "Descripción"
+
+#: templates/tellme/tpl-overview.html:6
+msgid "Additional info"
+msgstr "Información adicional"
+
+#: templates/tellme/tpl-overview.html:7
+msgid "None"
+msgstr "Ninguno"
+
+#: templates/tellme/tpl-overview.html:8
+msgid "Browser Info"
+msgstr "Información del Navegador"
+
+#: templates/tellme/tpl-overview.html:9
+msgid "Page Info"
+msgstr "Información de la pagina"
+
+#: templates/tellme/tpl-overview.html:10
+msgid "Page Structure"
+msgstr "Estrutura de la Página"
+
+#: templates/tellme/tpl-overview.html:15
+msgid "Submit"
+msgstr "Enviar"
+
+#: templates/tellme/tpl-submit-error.html:4
+msgid "Sadly an error occurred while sending your feedback. Please try again."
+msgstr ""
+"Ocurrio un error, por favor intente nuevamente"
+
+#: templates/tellme/tpl-submit-error.html:5
+#: templates/tellme/tpl-submit-success.html:6
+msgid "OK"
+msgstr "OK"
+
+#: templates/tellme/tpl-submit-success.html:4
+msgid ""
+"Thank you for your feedback. We value every piece of feedback we receive."
+msgstr ""
+"Gracias por su aporte. Lo evaluaremos tan pronto como podamos."
+
+#: templates/tellme/tpl-submit-success.html:5
+msgid ""
+"We cannot respond individually to every one, but we will use your comments "
+"as we strive to improve your experience."
+msgstr "-"
+
+
+#: views.py:30
+#, python-format
+msgid ""
+"Your site %(host)s received feedback from %(user)s.\n"
+"The comments were:\n"
+"%(note)s.\n"
+"\n"
+"See the full feedback content here: %(url)s"
+msgstr ""
+
+#: views.py:38
+#, python-format
+msgid "[%(host)s] Received feedback"
+msgstr "[%(host)s] Feedback recibido"
+
+# user_resources.html
+msgid "No person was claimed, select one:"
+msgstr "No ha validado su identidad:"
+
+msgid "Person list"
+msgstr "Lista de personas"
+
+msgid "Name"
+msgstr "Nombre"
+
+
+# user_resources.html
+msgid "No resources associated with this user"
+msgstr "Este usuario no esta asociado a ningún recurso"
+
+# blast.html
+msgid "Sequence must have at least 10 nucleotides/aminoacides"
+msgstr "La secuencia debe tener una longitud mínima de 10"
+
+msgid "Relation"
+msgstr "Relación"

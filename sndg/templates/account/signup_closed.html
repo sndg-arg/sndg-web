@@ -1,0 +1,16 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Sign Up Closed" %}{% endblock %}
+
+{% block inner %}
+    <div class="row">
+        <h4 class="activities-sidebar">{% trans "Sign Up Closed" %}</h4>
+        {% if user.is_authenticated %}
+            {% include "account/snippets/already_logged_in.html" %}
+        {% endif %}
+        <p>{% trans "We are sorry, but the sign up is currently closed." %}</p>
+    </div>
+{% endblock %}
+

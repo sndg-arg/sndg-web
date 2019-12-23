@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load bioresources_extras %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+{% endblock %}
+
+
+{% block content %}
+    {% resource_actions sample collaboration request %}
+        <div class="col-md-12">
+            <h1>{{sample.name}}</h1>
+            <p>
+            {{sample.description}}
+            </p>
+        </div>
+
+  {% related_resources_summary pk rtype_src related_resources level %}
+  {% resource_graph pk graph %}
+
+  <script type="text/javascript">
+    $(document).ready(()=>{
+        create_graph()
+    });
+  </script>
+{% endblock %}

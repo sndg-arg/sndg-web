@@ -1,0 +1,43 @@
+{% load i18n %}
+{% load static %}
+<header>
+    <div class="panel-pane pane-imagen-destacada">
+        <div class="pane-content">
+            <section class="jumbotron {% if class %}{{ class }}{% endif %}" style="{% if background_color %}background-color:{{ background_color }};{% endif %}{% if image_filename %} background-image: url('{% static image_filename %}');{% endif %}">
+            <div class="jumbotron_bar">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ol class="breadcrumb pull-left">
+
+                                <li><a href="https://www.argentina.gob.ar">Argentina</a></li>
+
+                                <li><a href="https://www.argentina.gob.ar/educacion">Ministerio de Educaci&oacute;n, Cultura, Ciencia y Tecnolog&iacute;a</a></li>
+
+                                <li><a href="https://www.argentina.gob.ar/ciencia">Ciencia, Tecnolog&iacute;a e Innovaci&oacute;n Productiva</a></li>
+
+                                <li><a href="https://www.argentina.gob.ar/ciencia/sistemasnacionales">Sistemas Nacionales</a></li>
+
+                                <li><a href="https://www.argentina.gob.ar/ciencia/sistemasnacionales/datos-genomicos">Datos Gen&oacute;micos</a></li>
+
+                                <li><a href="https://datos.sndg.mincyt.gob.ar">Portal</a></li>
+
+                                <li class="active"><span>{% trans section_name %}</span></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="jumbotron_body">
+                <div class="row">
+                    <div class="col-xs-12 col-md-8 col-md-offset-2 text-center">
+                        <h1> {%  trans section_name %}</h1>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+            <div class="overlay"></div>
+            </section>
+        </div>
+    </div>
+</header>

@@ -1,0 +1,208 @@
+{% load i18n %}
+{% load static %}
+
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>{% block title %} {% trans 'Navegador de datos genómicos' %} {% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="icon" type="image/x-ico" href="{% static 'images/favicon.ico' %}"/>
+
+  <meta property="og:site_name" content="{% trans 'Portal de datos genómicos' %}"/>
+  <meta property="og:url" content="https://datos.sndg.mincyt.gob.ar/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="{% trans 'Portal de datos genómicos' %}">
+  <meta property="og:description" content="Desde el Portal de Datos Genómicos del SNDG usted podrá acceder a la base de datos nacional unificada de información genómica, para todas las especies de interés ecológico, agropecuario, biotecnológico y en salud.">
+  <meta property="og:image" content="https://datos.sndg.mincyt.gob.ar/assets/logo_sistemas_nacionales-48dd30357d8c0e7dc192ba175f34427a.png" />
+  <meta property="og:locale" content="es_AR">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="{% trans 'Portal de datos genómicos' %}">
+  <meta name="twitter:description" content="Portal de Datos Genómicos del SNDG: base de datos nacional unificada de información genómica de especies de interés ecológico, agropecuario, biotecnológico y en salud.">
+  <meta name="twitter:image" content="https://datos.sndg.mincyt.gob.ar/assets/logo_sistemas_nacionales-48dd30357d8c0e7dc192ba175f34427a.png" />
+
+    <script type="text/javascript" src="{% static 'js/jquery-2.2.0.min.js' %}" ></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.js' %}" ></script>
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
+    <!--<link rel="stylesheet" href="{% static 'css/bootstrap-theme.css' %}"/>-->
+    <link rel="stylesheet" href="{% static 'css/poncho.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/roboto-fontface.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/icono-arg.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}"/>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id={{GOOGLE_ANALYTICS_CODE}}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', '{{GOOGLE_ANALYTICS_CODE}}');
+</script>
+
+<link href="{% static 'tellme/feedback.min.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <style>
+        .vertical-right-aligned {
+            transform: rotate(-90deg);
+            transform-origin: 100% 100%;
+            position: fixed;
+            right: 0;
+            top: 50%;
+            z-index: 100;
+        }
+
+    </style>
+
+   {% block head %}{% endblock %}
+
+  </head>
+
+  <body>
+    <button type="button" id="feedback-btn" class="btn btn-info vertical-right-aligned" style="display: block">
+        Feedback <span class="icono-arg-dialogo" aria-hidden="true"></span>
+    </button>
+
+    <header>
+        <nav class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{% url 'bioresources:index' %}"><img src="{%  static 'images/logo_sistemas_nacionales.png' %}" height="50px" alt="Sistema Nacional de Datos Genómicos"/></a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                {% include "navigation.html" %}
+            </div><!-- /.container-fluid -->
+        </nav>
+    </header>
+    {% block header %}
+        {% include "header.html" with class="bg-primary" section_name="Navegador de datos genómicos" %}
+    {% endblock %}
+
+{% block sidebarleft %}
+
+{% endblock %}
+
+<!--
+{% if sidebarleft and  sidebarrigth %}
+
+<main role="main"  class="col-md-8">
+
+{% elif   sidebarleft or  sidebarrigth %}
+<main id="main-div" role="main" class="col-md-10">
+
+{% else %}
+<main id="main-div" role="main" class="col-md-12 container">
+
+{% endif %}
+-->
+    <main role="main">
+        <div class="container">
+            <div class="row">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </main>
+{% block sidebarrigth %}
+
+{% if false and sidebarrigth %}
+
+<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+            {% if sidebarrigth.news %}
+              <li class="nav-item">
+                <h1><i class="fa fa-newspaper">  </i>{% trans 'News' %}</h1>
+                {% for news in  sidebarrigth.news  %}
+                <h2>{{news.title}}</h2>
+                <div>{{news.text}}</div>
+                {% endfor %}
+              </li>
+
+             {% endif %}
+              </ul>
+          </div>
+</nav>
+
+{% endif %}
+
+{% endblock %}
+
+{% block footer %}
+    <footer class="main-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <section>
+                        <img src="{% static 'images/00_Logo_Ministerio_ECCyT.png' %}" class="img-responsive"/>
+                    </section>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    {% include "navigation_footer.html" %}
+                </div>
+            </div>
+        </div>
+    </footer>
+
+{% endblock %}
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+
+
+
+{% block javascripts %}
+
+{% endblock %}
+{% csrf_token %}
+<script src="{% static 'tellme/feedback.min.js' %}"></script>
+<script type="text/javascript">
+    const csrf =  $('[name="csrfmiddlewaretoken"]').val();
+    $(function () {
+        $.feedback({
+            ajaxURL: "{% url 'tellme:post_feedback' %}",
+            html2canvasURL: "{% static 'tellme/html2canvas.min.js' %}",
+            feedbackButton: "#feedback-btn",
+            initButtonText: "{% filter escapejs %}{%  include 'tellme/initButtonText.txt' %}{% endfilter %}",
+            postHTML: false,
+            tpl: {
+                description: "{% filter escapejs %}{%  include 'tellme/tpl-description.html' %}{% endfilter %}",
+                highlighter: "{% filter escapejs %}{%  include 'tellme/tpl-highlighter.html' %}{% endfilter %}",
+                            overview:        "{% filter escapejs %}{%  include 'tellme/tpl-overview.html' %}{% endfilter %}",
+                            submitSuccess:"{% filter escapejs %}{%  include 'tellme/tpl-submit-success.html' %}{% endfilter %}",
+                            submitError: "{% filter escapejs %}{%  include 'tellme/tpl-submit-error.html' %}{% endfilter %}"
+            },
+            initialBox: true
+        });
+    });
+
+
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrf);
+            }
+        }
+    });
+
+</script>
+
+
+  </body>
+</html>

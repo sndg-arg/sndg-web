@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+{% load bioresources_extras %}
+
+{% load i18n %}
+{% block head %}
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+{% endblock %}
+
+{% block content %}
+        <div class="col-md-12">
+            <div id="blast-multiple-alignments"></div>
+            <div id="blast-alignments-table"></div>
+            <div id="blast-single-alignment"></div>
+            ...
+            <script type="text/javascript" src="{% static 'js/html2canvas.min.js' %}"></script>
+            <script type="text/javascript" src="{% static 'js/blaster.min.js' %}"></script>
+            <script type="text/javascript">
+                const alignments = `{{result|safe }}`;
+
+                $(document).ready(() => {
+                    const blasterjs = require("biojs-vis-blasterjs");
+                    const instance = new blasterjs({
+                        string: alignments,
+                        multipleAlignments: "blast-multiple-alignments",
+                        alignmentsTable: "blast-alignments-table",
+                        singleAlignment: "blast-single-alignment"
+                    });
+
+                });
+
+
+            </script>
+        </div>
+{% endblock %}

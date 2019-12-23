@@ -1,0 +1,9 @@
+{{ object.name      }}
+{{ object.country }}
+{{ object.subdivision }}
+{{ object.marker }}
+{{ object.bold_org }}
+{{ object.tax_txt }}
+
+
+
