@@ -16,49 +16,43 @@
 {% endblock %}
 
 {% block sidebarleft %}
+<div class="col-md-2 bg-light collapse navbar-collapse">
+    <nav class="d-none d-md-block sidebar" style="position: fixed;margin-top: 0px">
+        <div class="sidebar-sticky">
+            <a class="justify-content-between align-items-center px-3 mt-4 mb-1 btn"
+                      href="#function">General</a>
+        </div>
 
-<div class="col-md-2 bg-light">
-<nav class="d-none d-md-block sidebar" style="position: fixed;margin-top: 0px">
+         <div class="sidebar-sticky">
+            <a class="justify-content-between align-items-center px-3 mt-4 mb-1 btn {% if not functions.biological_process and not functions.molecular_function %} disabled{% endif %}"
+                      href="#function">Función</a>
+        </div>
 
+         <div class="sidebar-sticky">
+         <a class="justify-content-between align-items-center px-3 mt-4 mb-1 btn {% if not functions.cellular_component %} disabled{% endif %}"
+                      href="#localization">Localización Celular</a>
+                      </div>
 
-<div class="sidebar-sticky">
-    <a class="justify-content-between align-items-center px-3 mt-4 mb-1 btn"
-              href="#function">General</a>
-</div>
+        <div class="sidebar-sticky">
+         <a class="justify-content-between align-items-center px-3 mt-4 mb-1  btn{% if not functions.other %} disabled{% endif %}"
+                      href="#other">Otros</a></div>
 
- <div class="sidebar-sticky">
-    <a class="justify-content-between align-items-center px-3 mt-4 mb-1 btn {% if not functions.biological_process and not functions.molecular_function %} disabled{% endif %}"
-              href="#function">Función</a>
-</div>
-
- <div class="sidebar-sticky">
- <a class="justify-content-between align-items-center px-3 mt-4 mb-1 btn {% if not functions.cellular_component %} disabled{% endif %}"
-              href="#localization">Localización Celular</a>
-              </div>
-
-
-<div class="sidebar-sticky">
- <a class="justify-content-between align-items-center px-3 mt-4 mb-1  btn{% if not functions.other %} disabled{% endif %}"
-              href="#other">Otros</a></div>
-
-<div class="sidebar-sticky">
- <a class="justify-content-between align-items-center px-3 mt-4 mb-1  btn{% if not structures %} disabled{% endif %}"
-              href="#structure">Estructura</a></div>
-<div class="sidebar-sticky">
- <a class="justify-content-between align-items-center px-3 mt-4 mb-1 btn {% if not annotations %} disabled{% endif %}"
-              href="#annotation">Anotación</a></div>
-<div class="sidebar-sticky">
- <a class="justify-content-between align-items-center px-3 mt-4 mb-1 btn"
-              href="#sequence">Secuencia</a></div>
-<div class="sidebar-sticky">
- <a class="justify-content-between align-items-center px-3 mt-4 mb-1 btn"
-              href="#gen_ctx">Contexto Génico</a></div>
- <div class="sidebar-sticky">
-  <a class="justify-content-between align-items-center px-3 mt-4 mb-1 btn"
-               href="#vers">Versiones</a></div>
-
-
-</nav>
+        <div class="sidebar-sticky">
+         <a class="justify-content-between align-items-center px-3 mt-4 mb-1  btn{% if not structures %} disabled{% endif %}"
+                      href="#structure">Estructura</a></div>
+        <div class="sidebar-sticky">
+         <a class="justify-content-between align-items-center px-3 mt-4 mb-1 btn {% if not annotations %} disabled{% endif %}"
+                      href="#annotation">Anotación</a></div>
+        <div class="sidebar-sticky">
+         <a class="justify-content-between align-items-center px-3 mt-4 mb-1 btn"
+                      href="#sequence">Secuencia</a></div>
+        <div class="sidebar-sticky">
+         <a class="justify-content-between align-items-center px-3 mt-4 mb-1 btn"
+                      href="#gen_ctx">Contexto Génico</a></div>
+         <div class="sidebar-sticky">
+          <a class="justify-content-between align-items-center px-3 mt-4 mb-1 btn"
+                       href="#vers">Versiones</a></div>
+    </nav>
 </div>
 {% endblock %}
 
