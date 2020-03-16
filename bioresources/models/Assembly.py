@@ -14,7 +14,7 @@ class Assembly(Resource):
     )
     ASSEMBLY_TYPES = Choices(
         *[(i, x, _(x)) for i, x in enumerate([
-            "haploid", 'diploid', "other", "unresolved-diploid"
+            "haploid", 'diploid', "other", "unresolved-diploid", "alternate-pseudohaplotype"
         ])]
     )
 

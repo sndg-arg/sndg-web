@@ -75,13 +75,17 @@ def SubmissionImportView(request):
                 else:
                     results = []
         else:
-            results = process_db_id(db, search)
+            if search:
+                results = process_db_id(db, search)
+            else:
+                results = []
 
         return render(request, 'submission/submission_import.html', {"rtype": db,
                                                                      "collaboration_types": {x[0]: str(x[1]) for x in
                                                                                              Collaboration.COLLABORATION_TYPES},
                                                                      'resource': "assembly", "search": search,
-                                                                     "results": results})
+                                                                     "results": results,
+                                                                     "count": len(results)})
     else:
         search = request.GET.get("search", "")
         return render(request, 'submission/submission_import.html', {
