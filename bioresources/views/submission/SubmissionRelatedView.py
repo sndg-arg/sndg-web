@@ -16,7 +16,7 @@ from bioresources.models.Expression import Expression
 from bioresources.models.Publication import Publication
 from bioresources.models.ResourceRelation import ResourceRelation
 
-from bioresources.graph import connect_nodes
+
 from bioresources.io.adapters import scopus_extended_publication
 
 
@@ -129,6 +129,7 @@ def claim_identity(request, person_id):
 
 @login_required
 def claim_resource(request, resource_id):
+    from bioresources.graph import connect_nodes
     r = Resource.objects.get(id=resource_id)
 
     if request.method == 'POST':
@@ -148,6 +149,7 @@ def claim_resource(request, resource_id):
 
 @login_required
 def SubmissionRelatedView(request, src_id, dst_id):
+    from bioresources.graph import connect_nodes
     r1 = Resource.objects.get(id=src_id)
     r2 = Resource.objects.get(id=dst_id)
 

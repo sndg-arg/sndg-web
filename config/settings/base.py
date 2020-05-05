@@ -79,7 +79,7 @@ THIRD_PARTY_APPS = [
     # "django_celery_beat",
 
     'haystack',
-    'django_neomodel',
+    # 'django_neomodel',
 
     'tellme',
 

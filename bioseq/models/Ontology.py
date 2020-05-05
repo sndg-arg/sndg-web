@@ -55,6 +55,8 @@ class Ontology(models.Model):
         Term.objects.get_or_create(identifier="gene", name="gene", version=1, ontology=ann_ontology)
         Term.objects.get_or_create(identifier="product", name="product", version=1, ontology=ann_ontology)
 
+
+
     @staticmethod
     def load_go_base():
         from .Term import Term
@@ -65,7 +67,7 @@ class Ontology(models.Model):
 
         ontology = Ontology.objects.get_or_create(name=Ontology.GO)[0]
 
-        dbmap = {
+        Ontology.dbmap = {
             "biological_process": Dbxref.objects.get_or_create(dbname="go", accession="biological_process", version=1)[
                 0],
             "molecular_function": Dbxref.objects.get_or_create(dbname="go", accession="molecular_function", version=1)[
@@ -94,7 +96,7 @@ class Ontology(models.Model):
         gosubset_prok "Prokaryotic GO subset"
         virus_checked "Viral overhaul terms" """.split("\n"):
             k = x.strip().split(' ')[0]
-            dbmap[k] = Dbxref.objects.get_or_create(dbname="go", accession=k, version=1)[0]
+            Ontology.dbmap[k] = Dbxref.objects.get_or_create(dbname="go", accession=k, version=1)[0]
 
         part_of = Term.objects.get_or_create(identifier="part_of", ontology=graph_ontology)[0]
         regulates = Term.objects.get_or_create(identifier="regulates", ontology=graph_ontology)[0]

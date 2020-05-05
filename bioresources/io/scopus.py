@@ -1,7 +1,6 @@
 import json
 
-from elsapy.elsclient import ElsClient
-from elsapy.elssearch import ElsSearch
+
 from django.conf import settings
 
 
@@ -26,6 +25,8 @@ class ScopusDS:
              ]
 
     def __init__(self, con_path):
+        from elsapy.elsclient import ElsClient
+        from elsapy.elssearch import ElsSearch
         with open(con_path) as con_file:
             self.config = json.load(con_file)
 
@@ -41,6 +42,8 @@ class ScopusDS:
          AFFILCOUNTRY ( argentina )  AND  ( LIMIT-TO ( SRCTYPE ,  "j" )  OR  LIMIT-TO ( SRCTYPE ,  "p" ) )
         :return:
         """
+        from elsapy.elssearch import ElsSearch
+
 
         kwfilter = "OR ".join(['TITLE-ABS-KEY ("' + w + '") ' for w in keywords])
 
@@ -54,6 +57,8 @@ class ScopusDS:
             yield article
 
     def doi(self, doi):
+        from elsapy.elsclient import ElsClient
+        from elsapy.elssearch import ElsSearch
 
         aff_srch = ElsSearch("DOI ( %s )" % doi, 'scopus', maxResults=1)
         aff_srch.execute(self.client, get_all=True)

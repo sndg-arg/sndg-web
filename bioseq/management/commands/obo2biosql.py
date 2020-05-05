@@ -1,4 +1,6 @@
-from biosql.models import Ontology, Term, TermRelationship, Dbxref, TermDbxref, TermSynonym
+from bioseq.models.Ontology import Ontology
+from bioseq.models.Term import Term, TermRelationship, TermDbxref, TermSynonym
+
 from django.core.management.base import BaseCommand
 from django.db import transaction
 from goatools.obo_parser import GODag
@@ -11,11 +13,9 @@ class Command(BaseCommand):
     def __init__(self, stdout=None, stderr=None, no_color=False):
         super().__init__(stdout=stdout, stderr=stderr, no_color=no_color)
         self.ontology = None
-        self.dbmap = {}
-        self.is_a = None
-        self.relmap = {}
         self.ontology_name = ""
         self.obo_path = None
+        self.is_a = None
 
     def add_arguments(self, parser):
         parser.add_argument('--obo_path', required=True)
@@ -58,12 +58,12 @@ class Command(BaseCommand):
                                           ontology=self.ontology)
                             dbTerm.save()
                             if term.namespace:
-                                termdbref = TermDbxref(term=dbTerm, dbxref=self.dbmap[term.namespace], rank=1)
+                                termdbref = TermDbxref(term=dbTerm, dbxref=Ontology.dbmap[term.namespace], rank=1)
                                 termdbref.save()
 
                             for subset in term.subset:
-                                if subset in self.dbmap:
-                                    termdbref = TermDbxref(term=dbTerm, dbxref=self.dbmap[subset], rank=1)
+                                if subset in Ontology.dbmap:
+                                    termdbref = TermDbxref(term=dbTerm, dbxref=Ontology.dbmap[subset], rank=1)
                                     termdbref.save()
                             if hasattr(term, "synonym"):
                                 for synonym in term.synonym:
@@ -75,6 +75,7 @@ class Command(BaseCommand):
                             self.cache[go] = dbTerm
                         else:
                             self.cache[go] = Term.objects.filter(ontology=self.ontology,identifier=go).get()
+                            print("repeated: " + go)
                     except StopIteration:
                         finished = True
 
@@ -112,7 +113,7 @@ class Command(BaseCommand):
                                 if go in self.cache and child.id in self.cache:
                                     r = TermRelationship(
                                         subject_term=self.cache[go],  # parent
-                                        predicate_term=self.relmap[rel],
+                                        predicate_term=Ontology.relmap[rel],
                                         object_term=self.cache[child.id],  # child
                                         ontology=self.ontology
                                     )
@@ -130,8 +131,10 @@ class Command(BaseCommand):
             self.ontology_name = Ontology.SO
 
         self.obo_path = options["obo_path"]
-
-        self.create_base_terms()
+        self.ontology = Ontology.objects.get(name=self.ontology_name)
+        Ontology.load_go_base()
+        self.is_a = Ontology.relmap["is_a"]
 
         self.create_terms(options["ontology"])
         self.create_relationships(options["ontology"])
+

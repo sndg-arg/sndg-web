@@ -67,7 +67,7 @@ class Bioentry(models.Model):
         # feature = list(feature)[0]
         return [x.value for x in
                 self.qualifiers.filter(
-                    term__name__in=["gene_symbol", "old_locus_tag", "protein_id", "Alias", "gene"])]
+                    term__name__in=["gene_symbol", "old_locus_tag", "protein_id", "Alias", "gene","gene_synonym"])]
 
     def product_description(self):
         qs = self.qualifiers.filter(term__name="product")
@@ -110,7 +110,7 @@ class Bioentry(models.Model):
 
     def to_seq_record(self, addDesc=True):
         desc = self.description if addDesc else ""
-        r = SeqRecord(id=self.accession, name=desc, seq=Seq(self.seq.seq))
+        r = SeqRecord(id=self.accession.replace(" ","_"), name=desc, seq=Seq(self.seq.seq))
         return r
 
 

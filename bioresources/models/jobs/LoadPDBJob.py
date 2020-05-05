@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _, ngettext as __
 from django.db import models
 from django.conf import settings
 
-from pdbdb.io.PDBIO import PDBIO
+
 from bioresources.models.Job import Job
 from datetime import datetime
 
@@ -15,6 +15,7 @@ class LoadPDBJob(Job):
     pdb = models.TextField()
 
     def execute(self):
+        from pdbdb.io.PDBIO import PDBIO
         with open(self.result, "w") as stdout, open(self.dev_error, "w") as stderr:
             sys.stdout = stdout
             sys.stderr = stderr

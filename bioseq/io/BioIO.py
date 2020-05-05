@@ -4,6 +4,10 @@ from datetime import datetime
 from typing import Iterable, Callable
 import sys
 
+import Bio.SeqIO as bpio
+from Bio.SeqRecord import SeqRecord
+from Bio.Seq import Seq
+
 from django.db import transaction
 
 from Bio.SeqRecord import SeqRecord
@@ -52,8 +56,28 @@ def bulk_save(iterator: Iterable, action: Callable[[BSeqFeature], Seqfeature], b
 
 
 class BioIO:
-    included_feature_qualifiers = ["gene", "locus_tag", "db_xref"]
+    included_feature_qualifiers = ["gene", "locus_tag", "db_xref","gene_synonym"]
     excluded_feature_qualifiers = ["translation", "gene", "locus_tag", "db_xref", "product", ]
+
+    @staticmethod
+    def proteome_fasta(genome_name,fp):
+        if not hasattr(fp, 'write'):
+            h = open(fp,"w")
+        else:
+            h = fp
+
+        qs = Bioentry.objects.prefetch_related("seq").filter(
+            biodatabase__name = genome_name + Biodatabase.PROT_POSTFIX)
+        try:
+            for be in qs:
+                r = be.to_seq_record()
+                desc = "|".join( [ str(x) for x in [be.accession, "__".join(be.genes()), be.description ]  ] )
+                r.id = str(be.bioentry_id)
+                r.description = desc
+                bpio.write(r,h,"fasta")
+        finally:
+            if not hasattr(fp, 'write'):
+                h.close()
 
     def __init__(self, biodb_name: str, ncbi_tax: int):
         self.biodb_name = biodb_name
@@ -63,9 +87,9 @@ class BioIO:
     def create_db(self):
         self.genomedb = Biodatabase(name=self.biodb_name)
         self.genomedb.save()
-        self.proteindb = Biodatabase(name=self.biodb_name + "_prots")
+        self.proteindb = Biodatabase(name=self.biodb_name + Biodatabase.PROT_POSTFIX)
         self.proteindb.save()
-        self.rnadb = Biodatabase(name=self.biodb_name + "_rnas")
+        self.rnadb = Biodatabase(name=self.biodb_name + Biodatabase.RNAS_POSTFIX)
         self.rnadb.save()
 
         self.sfk_ontology = Ontology.objects.get(name=Ontology.SFK)
@@ -74,18 +98,24 @@ class BioIO:
         self.feature_term = Term.objects.get_or_create(ontology=self.ann_ontology, identifier="GFeatureId")[0]
         self.bioentry_term = Term.objects.get_or_create(ontology=self.ann_ontology, identifier="BioentryId")[0]
 
+
+
     def process_feature(self, be: Bioentry, feature: BSeqFeature):
         type_term = Term.objects.get_or_create(ontology=self.sfk_ontology, identifier=feature.type)[0]
         source_term = Term.objects.get_or_create(ontology=self.sfk_ontology, identifier="calculated")[0]
 
         display_name = feature.qualifiers["gene"][0] if "gene" in feature.qualifiers else (
             feature.qualifiers["locus_tag"][0] if "locus_tag" in feature.qualifiers else feature.type)
+
+        if feature.type == "mat_peptide":
+            display_name = display_name + "_" + feature.qualifiers["product"][0]
+
         sf = Seqfeature(bioentry=be, type_term=type_term, source_term=source_term, display_name=display_name)
         sf.save()
 
         for key, value in feature.qualifiers.items():
             value = value[0]
-            if not (feature.type == "CDS" or "RNA" in feature.type) or (key in BioIO.included_feature_qualifiers):
+            if not (feature.type in ["CDS" , "RNA"] ) or (key in BioIO.included_feature_qualifiers):
                 term = Term.objects.get_or_create(identifier=key, ontology=self.ann_ontology)[0]
                 sfqv = SeqfeatureQualifierValue.objects.create(seqfeature=sf, term=term, value=value)
                 sfqv.save()
@@ -99,17 +129,26 @@ class BioIO:
         if "pseudo" in feature.qualifiers:
             return
 
-        if feature.type == "CDS" or "RNA" in feature.type:
-
+        if feature.type in  ["CDS" , "RNA" ,"mat_peptide" ]:
             self.bioentry_from_feature(be, feature, sf)
 
     def bioentry_from_feature(self, be, feature, sf):
         description = feature.qualifiers["product"][0] if "product" else (
             feature.qualifiers["note"][0] if "note" in feature.qualifiers else "")
+
         gene = feature.qualifiers["gene"][0] if "gene" in feature.qualifiers else feature.qualifiers["locus_tag"][0]
         locus_tag = feature.qualifiers["locus_tag"][0] if "locus_tag" in feature.qualifiers else gene
-        if "CDS" == feature.type:
+        if feature.type == "mat_peptide":
+            gene = gene + "_" + feature.qualifiers["product"][0]
+            locus_tag = locus_tag + "_" + feature.qualifiers["product"][0]
+
+
+
+        if feature.type == "CDS":
             seq = feature.qualifiers["translation"][0]
+            db = self.proteindb
+        elif feature.type == "mat_peptide":
+            seq = str(feature.extract(Seq(be.seq.seq)))
             db = self.proteindb
         else:
             db = self.rnadb

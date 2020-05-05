@@ -21,8 +21,14 @@ class Term(models.Model):
         db_table = 'term'
         unique_together = (('identifier', 'ontology', 'is_obsolete'),)
 
+    def display_name(self):
+        return self.name if self.name else self.identifier
+
     def __str__(self):
-        return "%s - %s (%s)" % (self.identifier, self.name, self.ontology.name)
+        return "%s - %s (%s)" % (self.identifier, self.name, self.ontology.name) if self.name and (
+                self.identifier != self.name) else (
+                "%s  (%s)" % (self.identifier,  self.ontology.name)
+        )
 
 class TermDbxref(models.Model):
     term_dbxref_id = models.AutoField(primary_key=True)

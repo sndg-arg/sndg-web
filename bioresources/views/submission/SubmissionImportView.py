@@ -13,7 +13,7 @@ from bioresources.models.Organization import Organization
 from bioresources.models.Structure import Structure
 from bioresources.models.Publication import Publication
 from bioresources.models.Resource import Collaboration
-from bioresources.io.scopus import ScopusDS
+
 
 from bioresources.io.adapters import scopus_extended_publication
 from pdbdb.io.PDB2SQL import PDB2SQL
@@ -45,6 +45,7 @@ rtypes = ["assembly", "sra", "gds", "biosample", "structure", "pubmed","bioproje
 from django.contrib.auth.decorators import login_required
 @login_required
 def SubmissionImportView(request):
+
     current_user = request.user
     if request.method == 'POST':
 
@@ -65,7 +66,9 @@ def SubmissionImportView(request):
                 rr = ResourceResult(__("Already in DB"), ex.get(), search, db)
                 results = [rr]
             else:
+                from bioresources.io.scopus import ScopusDS
                 sds = ScopusDS(settings.SCOPUS_API)
+
                 results = sds.doi(search)
                 if results and "error" not in results[0]:
                     doi = results[0]['prism:doi']
@@ -165,6 +168,7 @@ def SubmitImportView(request):
         relation = int(request.POST["relation_" + acc])
 
         if rtype == "publication":
+            from bioresources.io.scopus import ScopusDS
             sds = ScopusDS(settings.SCOPUS_API)
             results = sds.doi(ncbi_id)
             record = scopus_extended_publication(results[0])

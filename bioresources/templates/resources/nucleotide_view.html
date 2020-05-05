@@ -46,7 +46,7 @@
                     {% for gene_prod in feature_list %}
                         <tr>
                             <td>
-                                {% if gene_prod.type_term.name == "CDS" %}
+                                {% if gene_prod.type_term.identifier == "CDS" or gene_prod.type_term.identifier == "mat_peptide"  %}
                                 {% if gene_prod.is_pseudo %}
                                     {{gene_prod.locus_tag}} (pseudo)
                                 {% else %}
@@ -57,7 +57,7 @@
                                 {{gene_prod.locus_tag}}
                                 {% endif %}
                             </td>
-                            <td>{{gene_prod.type_term.name}}</td>
+                            <td>{{gene_prod.type_term.display_name}}</td>
                             <td>{{gene_prod.locations.all|index:0|getattribute:'start_pos'}}</td>
                             <td>{{gene_prod.locations.all|index:0|getattribute:'end_pos'}}</td>
 

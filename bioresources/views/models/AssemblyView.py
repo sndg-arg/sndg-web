@@ -34,8 +34,10 @@ from bioseq.io.Pagination import Page
 
 def assembly_view(request, pk):
     assembly = Assembly.objects.get(id=pk)
-    graph, related_resources = GraphRepo.get_neighborhood(pk, "Assembly", level=1)
-
+    try:
+        graph, related_resources = GraphRepo.get_neighborhood(pk, "Assembly", level=1)
+    except:
+        graph, related_resources= (None,{})
 
 
     job = LoadGenomeJob.objects.filter(assembly=assembly)
