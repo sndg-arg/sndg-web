@@ -4,80 +4,118 @@
 {% load static %}
 {% load bioresources_extras %}
 
+{% block head %}
+    <style>
+        /*toggle help*/
+        .content-popover{
+            position: absolute !important;
+            max-width: 400px !important;
+            z-index: 2; border: 1px solid rgba(0, 0, 0, .2);
+            border-radius: 6px;
+            padding: 10px 20px 20px 20px;
+            top: -110px;
+            left: 220px;
+        }
+    </style>
+{% endblock %}
+{% block header %}
+    {% include "header.html" with class="bg-primary" section_name="Import a resource from NCBI/EBI/BOLD"%}
+{% endblock %}
+
 {% block content %}
-<div class="col-lg-9">
-<p>
-{% trans 'Ingrese el recurso a importar. Puede copiar un link, el numero de acceso al proyecto, publicacione, genoma, lecturas, muestra, estructura o datos de expresion. Por ejemplo:' %}.
-<table class="table table-bordered">
+<div class="col-md-8 col-md-offset-3">
+    <section>
+        <legend class="row">
+            <h1>{% trans 'Find resource' %}</h1>
+            <p>{% trans 'Please select the resource type and enter a keyword to search the remote databases.' %}</p>
+        </legend>
+        <form method="post" action="{% url 'bioresources:submission_import' %}">
+            <fieldset>
+                {% csrf_token %}
+                <div class="row">
+                    <div class="form-group item-form">
+                        <label for="search">{% trans 'Resource type' %}</label>
+                        <select class="custom-select" name="rtype" style="padding-left: 8px;margin-left:10px">
+                            <option {% if rtype == 'assembly' %} selected {% endif %} value="assembly">{% trans 'Genome' %}</option>
+                            <option {% if rtype == 'sra' %} selected {% endif %}  value="sra">{% trans 'Reads' %}</option>
+                            <option {% if rtype == 'gds' %} selected {% endif %}  value="gds">{% trans 'Expression' %}</option>
+                            {# <option {% if rtype == 'biosample' %} selected {% endif %}  value="biosample">{% trans 'Sample' %}</option> #}
+                            <option {% if rtype == 'structure' %} selected {% endif %}  value="structure">{% trans 'Structure' %}</option>
+                            <option {% if rtype == 'pubmed' %} selected {% endif %}  value="pubmed">{% trans 'Publication' %}</option>
+                            <option {% if rtype == 'bioproject' %} selected {% endif %}  value="bioproject">{% trans 'Bioproject' %}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row m-b-2">
+                    <div class="form-group item-form">
+                        <label for="search">{% trans 'Keyword' %}</label> <a onclick="popshow()" role="button" data-toggle="popover" data-trigger="focus" style="margin-left:10px;">{% trans 'What is this?' %}</a>
+                        <input type="search" name="search" class="form-control" id="search" value="{{search}}" style="float:left" />
+                        <p class="help-block error hidden">{% trans 'Please enter a keyword' %}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <button class="btn btn-info">{% trans 'Search remote databases' %}</button>
+                    </div>
+                </div>
 
-<tr><th>{% trans 'Genome/Assembly'%}</th><td>GCF_000195955.2 o  GCA_000195955.2  </td></tr>
-<tr><th>Lecturas</th><td>ERX3325914 o ERR3299636</td></tr>
-<tr><th>Estructura</th><td>2jrc</td></tr>
-<tr><th>Expresion</th><td>GSE134574</td></tr>
-  {#  <tr><th>Muestra</th><td>SAMEA3138326</td></tr> #}
-<tr><th>Publicación</th><td>10.3389/fmicb.2018.01471</td></tr>
-<tr><th>Proyecto</th><td>PRJNA224</td></tr>
-</table>
+                <legend>
+                    <div class="content-popover bg-white hidden" id="content-popover">
+                        <div class="col-xs-12 p-x-0">
+                            <span class="close" onclick="pophidde()">×</span>
+                        </div>
+                        <p>{% trans 'Puede copiar un link, el numero de acceso al proyecto, publicación, genoma, lecturas, muestra, estructura o datos de expresión. Por ejemplo:'%}</p>
 
-</p>
-<form method="post" action="{% url 'bioresources:submission_import' %}">
-{% csrf_token %}
-
-<div class="input-group mb-1">
-  <div  class="input-group-prepend">
-
-
-
-    <select  class="custom-select" name="rtype">
-    <option {% if rtype == 'assembly' %} selected {% endif %} value="assembly">{% trans 'Genome' %}</option>
-    <option {% if rtype == 'sra' %} selected {% endif %}  value="sra">{% trans 'Reads' %}</option>
-    <option {% if rtype == 'gds' %} selected {% endif %}  value="gds">{% trans 'Expression' %}</option>
-   {# <option {% if rtype == 'biosample' %} selected {% endif %}  value="biosample">{% trans 'Sample' %}</option> #}
-    <option {% if rtype == 'structure' %} selected {% endif %}  value="structure">{% trans 'Structure' %}</option>
-    <option {% if rtype == 'pubmed' %} selected {% endif %}  value="pubmed">{% trans 'Publication' %}</option>
-    <option {% if rtype == 'bioproject' %} selected {% endif %}  value="bioproject">{% trans 'Bioproject' %}</option>
-    </select>
-   </div>
-        <input class="form-control" type="search" name="search" value="{{search}}"  />
-
-    <div class="input-group-append">
-        <button class="btn">Search</button>
-    </div>
-</div>
-
-</form>
+                        <table class="table table-bordered">
+                            <tr><th>{% trans 'Genome/Assembly'%}</th><td>GCF_000195955.2 o  GCA_000195955.2  </td></tr>
+                            <tr><th>Lecturas</th><td>ERX3325914 o ERR3299636</td></tr>
+                            <tr><th>Estructura</th><td>2jrc</td></tr>
+                            <tr><th>Expresion</th><td>GSE134574</td></tr>
+                            {#  <tr><th>Muestra</th><td>SAMEA3138326</td></tr> #}
+                            <tr><th>Publicación</th><td>10.3389/fmicb.2018.01471</td></tr>
+                            <tr><th>Proyecto</th><td>PRJNA224</td></tr>
+                        </table>
+                    </div>
+                </legend>
+            </fieldset>
+        </form>
 {% if results %}
-<h2>{% trans 'Results' %}</h2>
-<form action="{% url 'bioresources:submission_import_submit' %}" method="POST">
-    <table id="results_table" class="table">
-
-        {% for r in results %}
-        <tr>
-        {% if r.resource.id  %}
-            <td></td>
-            <td></td>
-        {% else %}
-            <td><input type="checkbox" name="accession_{{r.resource.name}}" />
-             <input type="hidden" name="id_{{r.resource.name}}" value="{{r.external_id}}" />
-            </td>
-            <td><select name="relation_{{r.resource.name}}">
-            {% for k,v in collaboration_types.items %}
-                <option value="{{k}}">{% trans v %}   </option>
-
-            {% endfor  %}
-                </select> </td>
-        {% endif %}
-            <td>{{r.msg}} </td>
-            <td>{{r.resource.name}} </td>
-            <td>{{r.resource.description}} </td>
-            <td>{{r.resource.type_name}}
-            <input type="hidden" name="rtype_{{r.resource.name}}" value="{{r.resource.type_name}}" />
-            </td>
-
-        </tr>
-        {% endfor %}
-    </table>
-    <input class="btn" type="submit" value="{% trans 'Load selected resources' %}" />
+    <legend class="row">
+        <h1>{{count}} {% trans 'resources found in remote databases' %}</h1>
+        <p>{% trans 'Please select the resources you want to import from the list.' %}</p>
+    </legend>
+    <form action="{% url 'bioresources:submission_import_submit' %}" method="POST">
+        <table id="results_table" class="table">
+            {% for r in results %}
+            <tr>
+                {% if r.resource.id  %}
+                <td></td>
+                <td></td>
+                {% else %}
+                <td>
+                    <input type="checkbox" name="accession_{{r.resource.name}}" />
+                    <input type="hidden" name="id_{{r.resource.name}}" value="{{r.external_id}}" />
+                </td>
+                <td>
+                    <select name="relation_{{r.resource.name}}">
+                    {% for k,v in collaboration_types.items %}
+                        <option value="{{k}}">{% trans v %}   </option>
+                    {% endfor  %}
+                    </select>
+                </td>
+                {% endif %}
+                <td>{{r.msg}}</td>
+                <td>{{r.resource.name}} </td>
+                <td>{{r.resource.description}} </td>
+                <td>{{r.resource.type_name}}<input type="hidden" name="rtype_{{r.resource.name}}" value="{{r.resource.type_name}}" /></td>
+            </tr>
+            {% endfor %}
+        </table>
+        <div class="row">
+            <div class="input-group">
+                <input type="submit" class="btn btn-info" value="{% trans 'Load selected resources' %}" />
+            </div>
+        </div>
     {% csrf_token %}
 </form>
 
@@ -87,6 +125,17 @@
 {% endif %}
 {% endif %}
 
-
+    </section>
 </div>
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript">
+        var content_popover = document.getElementById('content-popover');
+        function popshow(){
+            content_popover.classList.toggle('hidden');
+        }
+        function pophidde(){
+            content_popover.classList.add('hidden')
+        }
+    </script>
 {% endblock %}

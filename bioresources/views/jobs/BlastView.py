@@ -44,12 +44,12 @@ def blast(request):
         kwargs = {
             "db":db,
             "query":query,
-            "matrix":request.POST["matrix_select"],
+            #"matrix":request.POST["matrix_select"],
             "gapopen":request.POST["gap_open_input"],
             "gapextend":request.POST["gap_extend_input"],
             "evalue":request.POST["evalue_select"],
             "soft_masking":request.POST["low_complexity_select"],
-            "max_hsps":request.POST["results_select"],
+            "max_target_seqs":request.POST["results_select"],
             "outfmt":"5"
 
         }
