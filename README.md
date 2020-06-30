@@ -2,6 +2,12 @@
 SNDG Web Apps
 
 
+Install
+
+pip install -r requirements/local.txt
+
+./manage.py init_db
+
 ALTER TABLE `sndg5`.`bioentry` 
 CHANGE COLUMN `index_updated` `index_updated` TINYINT(1) NOT NULL DEFAULT 0 ;
 

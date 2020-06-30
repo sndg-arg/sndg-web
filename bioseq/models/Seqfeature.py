@@ -9,8 +9,11 @@ from ..models.Dbxref import Dbxref
 
 from ..managers.SeqfeatureManager import SeqfeatureManager
 
+
 class Seqfeature(models.Model):
     ENTRY_TYPES = ["CDS", "rRNA", "tRNA", "regulatory", "ncRNA", "mRNA", "repeat"]
+
+    EXPERIMENTAL_STRUCTURE = "pdb"
 
     seqfeature_id = models.AutoField(primary_key=True)
     bioentry = models.ForeignKey(Bioentry, models.CASCADE, related_name="features")
@@ -21,8 +24,7 @@ class Seqfeature(models.Model):
 
     index_updated = models.BooleanField(default=False)
 
-    def qualifiers_dict(self):
-        return {x.term.identifier: x.value for x in self.qualifiers.all()}
+
 
     objects = SeqfeatureManager()
 
@@ -34,24 +36,29 @@ class Seqfeature(models.Model):
     class Meta:
         managed = True
         db_table = 'seqfeature'
+        indexes = [
+            models.Index(fields=['bioentry',]),
+            models.Index(fields=['type_term',]),
+        ]
         # unique_together = (('bioentry', 'type_term', 'source_term', 'rank'),)
-
 
     def strand(self):
         return "+" if self.locations.all()[0].strand > 0 else "-"
 
     def locus_tag(self):
-        return self.qualifiers.get(term__name='locus_tag').value
+        qs = [x for x in self.qualifiers.all() if x.term.name == 'locus_tag']
+
+        return qs[0].value if qs else ""
 
     def genes(self):
         return [x.value for x in
-                self.qualifiers.filter(term_name__in=["gene_symbol", "old_locus_tag", "protein_id", "Alias", "gene"])]
+                self.qualifiers.all() if x.term_name in
+                ["gene_symbol", "old_locus_tag", "protein_id", "Alias", "gene"]]
 
     def description(self):
-        qs = self.qualifiers.filter(term__name='product')
-        if qs.exists():
-            return qs.get().value
-        return self.type_term.name
+        qs = [x for x in self.qualifiers.all() if x.term.name == 'product']
+
+        return qs[0].value if qs else ""
 
     def length(self):
         return sum([abs(x.end_pos - x.start_pos) for x in self.locations])
@@ -59,17 +66,26 @@ class Seqfeature(models.Model):
     def subfeatures(self):
         return [x.object_seqfeature for x in self.object_relationships.all()]
 
+
+    def qualifiers_dict(self):
+        if not hasattr(self,"_qualifiers_dict"):
+            self._qualifiers_dict = {x.term.identifier: x.value for x in self.qualifiers.all()}
+        return self._qualifiers_dict
+
     def is_pseudo(self):
         # count = Seqfeature.objects.filter(qualifiers__term__identifier="pseudo",
         #                                                 bioentry=self.bioentry,
         #                                                 type_term__identifier="gene").count()
         # [x for x in self.bioentry.features.filter(qualifiers__term__identifier="pseudo").all()][0]
 
-        f = [f for f in self.bioentry.features.filter(type_term__identifier = "gene",qualifiers__value=self.locus_tag()) ]
+        f = [f for f in self.bioentry.features.filter(type_term__identifier="gene", qualifiers__value=self.locus_tag())]
         if f:
             f = f[0]
             return "pseudo" in f.qualifiers_dict()
         return False
+
+    def first_location(self):
+        return self.locations.all()[0]
 
 
 class SeqfeatureDbxref(models.Model):
@@ -87,7 +103,7 @@ class SeqfeatureDbxref(models.Model):
 class SeqfeaturePath(models.Model):
     seqfeature_path_id = models.AutoField(primary_key=True)
     object_seqfeature = models.ForeignKey(Seqfeature, models.DO_NOTHING, related_name="object_paths")
-    subject_seqfeature = models.ForeignKey(Seqfeature, models.DO_NOTHING, related_name="subject_paths") # parent
+    subject_seqfeature = models.ForeignKey(Seqfeature, models.DO_NOTHING, related_name="subject_paths")  # parent
     term = models.ForeignKey('Term', models.DO_NOTHING)
     distance = models.PositiveIntegerField(blank=True, null=True)
 
@@ -119,7 +135,7 @@ class SeqfeatureQualifierValue(models.Model):
 class SeqfeatureRelationship(models.Model):
     seqfeature_relationship_id = models.AutoField(primary_key=True)
     object_seqfeature = models.ForeignKey(Seqfeature, models.DO_NOTHING, related_name="object_relationships")
-    subject_seqfeature = models.ForeignKey(Seqfeature, models.CASCADE, related_name="subject_relationships") # parent
+    subject_seqfeature = models.ForeignKey(Seqfeature, models.CASCADE, related_name="subject_relationships")  # parent
     term = models.ForeignKey('Term', models.DO_NOTHING)
     rank = models.IntegerField(default=1, null=True)
 

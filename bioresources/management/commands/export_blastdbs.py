@@ -6,6 +6,7 @@ import Bio.SeqIO as bpio
 
 from django.core.management.base import BaseCommand, CommandError
 
+from bioseq.io.SeqStore import SeqStore
 from bioseq.models.Bioentry import Bioentry
 from bioresources.models.BlastDB import BlastDB
 from bioseq.io.Blast import Blast
@@ -20,7 +21,7 @@ class Command(BaseCommand):
             parser.add_argument('--' + db, action='store_false')
 
     def handle(self, *args, **options):
-
+        seqstore = SeqStore.instance()
         for db, db_filter in BlastDB.dbs.items():
 
             if options[db]:
@@ -29,6 +30,6 @@ class Command(BaseCommand):
                 with open(file_path, "w") as h:
                     qs = Bioentry.objects.filter(db_filter)
                     for be in tqdm(qs.all(), total=qs.count(), file=self.stderr):
-                        bpio.write(be.to_seq_record(False), h, "fasta")
+                        bpio.write(be.to_seq_record(seqstore,False), h, "fasta")
                 Blast.makeblastdb(fasta_path=file_path, dbtype=bdb.dbtype)
                 bdb.save()

@@ -5,6 +5,7 @@ from tqdm import tqdm
 
 from pdbdb.io.PDB2SQL import PDB2SQL
 from pdbdb.models import PDB
+from SNDG.Structure.PDBs import  PDBs
 
 
 def iterpdbs(pdbs_dir, pdb_extention=".ent"):
@@ -19,23 +20,42 @@ class Command(BaseCommand):
     help = 'Loads the pdb files to the database'
 
     def add_arguments(self, parser):
-        parser.add_argument('--pdbs_dir', required=True)
-        parser.add_argument('--entries_path', required=True)
+        pdbs = PDBs()
+        parser.add_argument('--pdbs_dir', default="data/pdb/")
+        parser.add_argument('--entries_path', default="data/pdb/entries.idx")
+        parser.add_argument('--only_annotated', action='store_false')
+        parser.add_argument('--entries_url', default=pdbs.url_pdb_entries)
 
     def handle(self, *args, **options):
+        pdbs = PDBs(pdb_dir=options['pdbs_dir'])
+        pdbs.url_pdb_entries = options["entries_url"]
+        if not os.path.exists(options["entries_path"]):
+            pdbs.download_pdb_entries()
+
 
         pdb2sql = PDB2SQL(options['pdbs_dir'], options['entries_path'])
         pdb2sql.load_entries()
-        pdbs = list(tqdm(iterpdbs(pdbs_dir)))
+        if options["only_annotated"]:
+            self.stderr.write("only_annotated option activated by default")
+            from bioseq.models.Dbxref import Dbxref
+            pdbs = [(x.accession.lower(),pdbs.pdb_path( x.accession.lower()))
+                    for x in Dbxref.objects.filter(dbname="PDB")]
+        else:
+            pdbs = list(tqdm(iterpdbs(options['pdbs_dir'])))
         # 4zux 42 mer 2lo7("5my5","/data/databases/pdb/divided/my/pdb5my5.ent")
         # ("4zu4", "/data/databases/pdb/divided/zu/pdb4zu4.ent")
 
         with tqdm(pdbs) as pbar:
-            for code in pbar:
+            for code,pdb_path in pbar:
                 code = code.lower()
-                pdb_path = pdb2sql.download(code)
+                try:
+                    pdb_path = pdb2sql.download(code)
+                except:
+                    self.stderr.write("PDB %s could not be downloaded" % code)
+                    continue
 
                 if PDB.objects.filter(code=code).exists():
+                    self.stderr.write("PDB %s already exists" % code)
                     continue
 
                 pbar.set_description(code)

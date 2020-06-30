@@ -13,7 +13,7 @@ class Location(models.Model):
     term = models.ForeignKey('Term', models.DO_NOTHING, blank=True, null=True)
     start_pos = models.IntegerField(blank=True, null=True)
     end_pos = models.IntegerField(blank=True, null=True)
-    strand = models.IntegerField()
+    strand = models.IntegerField(default=1)
     rank = models.SmallIntegerField(default=1, null=True)
 
     class Meta:

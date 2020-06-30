@@ -2,9 +2,9 @@
 from __future__ import unicode_literals
 from django.utils.translation import gettext_lazy as __
 from django.db import models
-from django.shortcuts import reverse
 
 from .Dbxref import Dbxref
+
 
 class Ontology(models.Model):
     GO = "Gene Ontology"
@@ -14,6 +14,17 @@ class Ontology(models.Model):
     SFK = 'SeqFeature Keys'
     GRAPH = "Graph"
     ANNTAGS = "Annotation Tags"
+
+    gene = "gene"
+    CDS = "CDS"
+    tRNA = "tRNA"
+    rRNA = "rRNA"
+    ncRNA = "ncRNA"
+    exon = "exon"
+    mRNA = "mRNA"
+    miRNA = "miRNA"
+    misc_RNA = "misc_RNA"
+    mat_peptide = "mat_peptide"
 
     ontology_id = models.AutoField(primary_key=True)
     name = models.CharField(unique=True, max_length=32)
@@ -54,8 +65,7 @@ class Ontology(models.Model):
         Term.objects.get_or_create(identifier="locus_tag", name="locus_tag", version=1, ontology=ann_ontology)
         Term.objects.get_or_create(identifier="gene", name="gene", version=1, ontology=ann_ontology)
         Term.objects.get_or_create(identifier="product", name="product", version=1, ontology=ann_ontology)
-
-
+        Term.objects.get_or_create(identifier="length", name="length", version=1, ontology=ann_ontology)
 
     @staticmethod
     def load_go_base():
@@ -63,9 +73,10 @@ class Ontology(models.Model):
         graph_ontology = Ontology.objects.get_or_create(name=Ontology.GRAPH, definition="")[0]
 
         is_a = Term.objects.get_or_create(
-                identifier="is_a", name="is_a", version=1, ontology=graph_ontology, definition="")[0]
+            identifier="is_a", name="is_a", version=1, ontology=graph_ontology, definition="")[0]
 
         ontology = Ontology.objects.get_or_create(name=Ontology.GO)[0]
+        ontology = Ontology.objects.get_or_create(name=Ontology.EC)[0]
 
         Ontology.dbmap = {
             "biological_process": Dbxref.objects.get_or_create(dbname="go", accession="biological_process", version=1)[
@@ -147,5 +158,5 @@ class Ontology(models.Model):
             "has_part": has_part, "transcribed_to": transcribed_to, "variant_of": variant_of,
             "transcribed_from": transcribed_from, "adjacent_to": adjacent_to,
             "member_of": member_of, "contains": contains, "non_functional_homolog_of": non_functional_homolog_of,
-            "overlaps": overlaps, "guided_by": guided_by,"is_a":is_a
+            "overlaps": overlaps, "guided_by": guided_by, "is_a": is_a
         }

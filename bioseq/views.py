@@ -220,7 +220,7 @@ def assembly_view(request, pk):
         """ % (x.bioentry_id))[0]
         lengths[x.accession] = seq.length
 
-    return render(request, 'bioseq/assembly_detail.html', {"lengths": lengths,
+    return render(request, 'bioseq/genome_view.html', {"lengths": lengths,
                                                            "object": assembly,
                                                            "contigs": queryset.all(), "page_obj": page, "query": None,
                                                            "sidebarleft": {}})

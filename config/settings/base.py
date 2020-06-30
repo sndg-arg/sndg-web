@@ -75,7 +75,7 @@ THIRD_PARTY_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     'allauth.socialaccount.providers.google',
-    "rest_framework",
+    # "rest_framework",
     # "django_celery_beat",
 
     'haystack',
@@ -416,3 +416,6 @@ FILE_UPLOAD_TEMP_DIR = os.environ.get('FILE_UPLOAD_TEMP_DIR', os.path.join(str(R
 DJANGO_SELECT2_I18N = 'ar'
 MINCYT_URL = os.environ.get('MINCYT_URL', "")
 MINCYT_API_URL = os.environ.get('MINCYT_API_URL', "http://datostest.sndg.mincyt.gob.ar/api")
+
+SEQSTORE_DIR = env('SEQSTORE_DIR', default="data/seqs/")
+SEQSTORE_DIR_TMP = env('SEQSTORE_DIR_TMP', default="data/tmp/seqs/")

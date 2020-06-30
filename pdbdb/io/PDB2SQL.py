@@ -31,7 +31,16 @@ class PDB2SQL():
         assert os.path.exists(self.entries_path), "%s does not exists" % self.entries_path
         entries_columns = ["IDCODE", "HEADER", "ACCESSIONDATE", "COMPOUND", "SOURCE", "AUTHORS", "RESOLUTION",
                            "EXPERIMENT"]
-        self.entries_df = pd.read_table(self.entries_path, skiprows=[0, 1, 2], sep='\t', names=entries_columns)
+        data = []
+        lines = open(self.entries_path).readlines()
+        for i,line in enumerate(lines):
+            if i <= 2:
+                continue
+            vec = line.strip().split("\t")
+            record = {x:vec[idx] for idx,x in enumerate(entries_columns)}
+            data.append(record)
+        self.entries_df = pd.DataFrame(data)
+
 
     def download(self, code, overwrite=False):
         code = code.lower()
@@ -61,7 +70,7 @@ class PDB2SQL():
             raise Exception("PDB code %s not found" % code)
 
         with open(pdb_path) as h:
-            pdb_model = PDB(code=code, experiment=str(entry.EXPERIMENT), text=h.read())
+            pdb_model = PDB(code=code, experiment=str(entry.EXPERIMENT), text=h.read(),header = entry.HEADER)
 
         resolution = None
         try:

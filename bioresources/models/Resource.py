@@ -7,7 +7,6 @@ from django.urls import reverse
 from django.template.loader import get_template
 from django.conf import settings
 
-
 from .Person import Person
 from .Organization import Organization
 from .RKeyword import RKeyword
